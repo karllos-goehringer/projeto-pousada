@@ -1,0 +1,49 @@
+.boxHeader {
+  background: #ffffff;
+  padding: 1rem 2rem;
+  height: 4vh;
+  display: flex;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  border-bottom: 1px solid #e5e7eb;
+  padding-left: 5rem;
+  padding-right: 5rem;
+}
+
+.boxUser {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  justify-content: center;
+  width: 100vw;
+  margin: 0 auto;
+  margin-top: 1rem;
+}
+
+.boxUser p {
+  color: #374151;
+  font-size: 0.95rem;
+  margin: 0;
+  font-weight: 500;
+}
+
+.linkHeader {
+  color: #c2cfc2;
+  text-decoration: none;
+  font-weight: 500;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+}
+
+.linkHeader:hover {
+  color: #667eea;
+  background: #f3f4f6;
+}
+
+.linkHeader[href="/logout"] {
+  color: #ef4444;
+}
+
+.linkHeader[href="/logout"]:hover {
+  background: #fef2f2;
+}

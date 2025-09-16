@@ -1,7 +1,7 @@
-import LocalStorageInstance from "../../backend/LocalStorage";
+import LocalStorage from "../../backend/LocalStorage";
 
 export default function PaginaLogout(){
-    LocalStorageInstance.UserLogged = null;
+    LocalStorage.UserLogged = null;
     window.location.href = "/login";
     return(
         <div>

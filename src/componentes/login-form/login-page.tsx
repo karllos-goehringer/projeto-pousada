@@ -1,6 +1,6 @@
 import React, { useState, type JSX } from "react";
 import { useNavigate } from "react-router-dom";
-import LocalStorageInstance from "../../backend/LocalStorage";
+import LocalStorage from "../../backend/LocalStorage";
 import User from "../../backend/user/user";
 import {
     Card,
@@ -13,7 +13,6 @@ import estilo from "./login-form.module.css"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Button } from "@/components/ui/button"
-import { verifyAdmin } from "@/backend/exec";
 export default function LoginForm(): JSX.Element {
     const [email, setEmail] = useState("");
     const [senha, setSenha] = useState("");
@@ -23,23 +22,19 @@ export default function LoginForm(): JSX.Element {
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-       
-
         const data = { email, senha };
-
         try {
             const res = await fetch("http://localhost:3000/login", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(data),
             });
-
             if (res.ok) {
                 let info = await res.json()
                 setMsg("Tudo certo. Bem vindo!");
                 setEmail("");
                 setSenha("");
-                LocalStorageInstance.UserLogged = new User(info.email, info.nome, info.adm);
+                LocalStorage.UserLogged = new User(info.email, info.nome, info.adm);
                 setTimeout(() => {
                     navigate("/home");
                 }, 1000);
@@ -64,34 +59,16 @@ export default function LoginForm(): JSX.Element {
                     <form onSubmit={handleSubmit} method="POST" className="flex flex-col gap-6">
                         <div className="grid gap-2">
                             <Label htmlFor="email">Email</Label>
-                            <Input
-                                id="email"
-                                type="email"
-                                placeholder="email@exemplo.com"
-                                required
-                                onChange={(e) => setEmail(e.target.value)}
-                            />
+                            <Input id="email" type="email" placeholder="email@exemplo.com" required onChange={(e) => setEmail(e.target.value)}/>
                         </div>
                         <div className="grid gap-2">
                             <div className="flex items-center">
                                 <Label htmlFor="password">Senha</Label>
-                                <a
-                                    href="#"
-                                    className="ml-auto inline-block text-sm underline-offset-4 hover:underline"
-                                >
-                                    Esqueceu a senha?
-                                </a>
+                                <a href="#" className="ml-auto inline-block text-sm underline-offset-4 hover:underline">Esqueceu a senha?</a>
                             </div>
-                            <Input
-                                id="password"
-                                type="password"
-                                required
-                                onChange={(e) => setSenha(e.target.value)}
-                            />
+                            <Input id="password" type="password" required onChange={(e) => setSenha(e.target.value)}/>
                         </div>
-                        <Button type="submit" className="w-full mt-4">
-                            Login
-                        </Button>
+                        <Button type="submit" className="w-full mt-4"> Login</Button>
                     </form>
                 </CardContent>
             </Card>

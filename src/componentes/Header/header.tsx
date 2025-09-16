@@ -1,23 +1,37 @@
 import { Link } from "react-router-dom";
-import LocalStorageInstance from "../../backend/LocalStorage";
 import estilo from "./header.module.css";
+import { Button } from "@/components/ui/button";
+import LocalStorage from "../../backend/LocalStorage";
 export default function Header() {
     let boxUser = null;
-    if (LocalStorageInstance.UserLogged != null) {
+    
+    if (LocalStorage.UserLogged != null) {
+        console.log(LocalStorage.UserLogged)
         boxUser = (
             <div className={estilo.boxUser}>
-                <p>Bem vindo, {LocalStorageInstance.UserLogged.name}</p>
-                <Link to="/logout">Logout</Link>
-            </div>)}else{
-            boxUser = (
-                <div className={estilo.boxUser}>
+                <p className="text-white">Bem vindo, {LocalStorage.UserLogged.name}</p>
+          
+                <Button variant="outline">
+                    <Link to="/logout">Logout</Link>
+                </Button>
+            </div>)
+    }
+    else {
+        boxUser = (
+            <div className={estilo.boxUser}>
+                <Button variant="outline" className="text-white ">
                     <Link to="/login">Login</Link>
+                </Button>
+                <Button variant="outline">
                     <Link to="/register">Registrar</Link>
+                </Button>
+                <Button variant="outline">
                     <Link to="/home">Home</Link>
-                </div>
-            )
-            }
-        return (
-            <div>{boxUser}</div>
+                </Button>
+            </div>
         )
     }
+    return (
+        <div>{boxUser}</div>
+    )
+}

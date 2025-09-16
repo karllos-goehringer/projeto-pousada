@@ -7,7 +7,7 @@ export  async function pingTest() {
     console.log(data);
 }
 export  function verifyLogin(user:User|null):boolean{
-    if(user != null){
+    if(user?.email != null){
         return true;
     }else{
         return false;

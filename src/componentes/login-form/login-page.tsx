@@ -1,6 +1,6 @@
 import React, { useState, type JSX } from "react";
 import { useNavigate } from "react-router-dom";
-import LocalStorageInstance from "../../backend/LocalStorage";
+import LocalStorage from "../../backend/LocalStorage";
 import User from "../../backend/user/user";
 import {
     Card,
@@ -59,13 +59,7 @@ export default function LoginForm(): JSX.Element {
                     <form onSubmit={handleSubmit} method="POST" className="flex flex-col gap-6">
                         <div className="grid gap-2">
                             <Label htmlFor="email">Email</Label>
-                            <Input
-                                id="email"
-                                type="email"
-                                placeholder="email@exemplo.com"
-                                required
-                                onChange={(e) => setEmail(e.target.value)}
-                            />
+                            <Input id="email" type="email" placeholder="email@exemplo.com" required onChange={(e) => setEmail(e.target.value)}/>
                         </div>
                         <div className="grid gap-2">
                             <div className="flex items-center">
@@ -74,12 +68,7 @@ export default function LoginForm(): JSX.Element {
                                     Esqueceu a senha?
                                 </a>
                             </div>
-                            <Input
-                                id="password"
-                                type="password"
-                                required
-                                onChange={(e) => setSenha(e.target.value)}
-                            />
+                            <Input id="password" type="password" required onChange={(e) => setSenha(e.target.value)}/>
                         </div>
                         <Button type="submit"  className="w-full" >
                             Login

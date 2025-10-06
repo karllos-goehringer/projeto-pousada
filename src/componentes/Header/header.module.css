@@ -1,5 +1,5 @@
 .boxHeader {
-  background: #ffffff;
+  background: #241f4e;
   padding: 1rem 2rem;
   height: 4vh;
   display: flex;
@@ -8,7 +8,6 @@
   padding-left: 5rem;
   padding-right: 5rem;
 }
-
 .boxUser {
   display: flex;
   align-items: center;
@@ -19,13 +18,6 @@
   margin-top: 1rem;
 }
 
-.boxUser p {
-  color: #ffffff;
-  font-size: 0.95rem;
-  margin: 0;
-  font-weight: 500;
-}
-
 .linkHeader {
   color: #c2cfc2;
   text-decoration: none;
@@ -34,16 +26,7 @@
   border-radius: 6px;
   transition: all 0.2s ease;
 }
-
-.linkHeader:hover {
-  color: #667eea;
-  background: #f3f4f6;
-}
-
-.linkHeader[href="/logout"] {
-  color: #ef4444;
-}
-
-.linkHeader[href="/logout"]:hover {
-  background: #fef2f2;
+.ptext{
+  color:rgb(255, 255, 255);
+  font-weight: 500;
 }

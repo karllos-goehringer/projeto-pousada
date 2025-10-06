@@ -6,8 +6,11 @@ class LocalStorage {
         return LocalStorage._UserLogged;
     }
 
-    public static set UserLogged(user: User | null) {
-        LocalStorage._UserLogged = user;
+    public static async userdata() {
+       return LocalStorage._UserLogged
+    }
+    public static set UserLogged(User:User|null){
+        this._UserLogged = User
     }
 }
-export default LocalStorage;
+export default LocalStorage

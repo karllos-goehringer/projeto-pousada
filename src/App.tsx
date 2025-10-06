@@ -7,24 +7,25 @@ import PaginaCadastroObjetos from './paginas/pagina-cadastro-objetos/Pagina-cada
 import PaginaCadastroUser from './paginas/pagina-cadastro-user/pagina-cadastro-user'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import PaginaLogout from './paginas/pagina-logout/pagina-logout'
-import PousadasGeral from './paginas/pagina-pousadas-geral/pousadas-geral'
-import CadastroPousadas from './paginas/pagina-cadastro-pousada/pagina-cadastro-pousada'
+import PrivateRoute from './backend/private-route/private-route'
 function App() {
   return (
-   <BrowserRouter>
-      <Routes>
-        <Route path='/' element={<Homepage/>}/>
-        <Route path='/index' element={<Homepage/>}/>
-        <Route path='/login' element={<LoginPage/>}/>
-        <Route path='pagina-item/:id' element={<PaginaCadastroObjetos/>}/>
-        <Route path='register' element={<PaginaCadastroUser/>}/>
-        <Route path='cadastro-comodos' element={<Paginacadastrocomodos/>}/>
-        <Route path='logout' element={<PaginaLogout/>}></Route>
-        <Route path='pousadas/' element={<PousadasGeral/>}></Route>
-        <Route path='/form-pousada/' element={<CadastroPousadas/>}></Route>
-        <Route path="*" element={<Homepage />} />
-      </Routes>
-    </BrowserRouter>
+<BrowserRouter>
+  <Routes>
+    {/* Rotas públicas */}
+    <Route path='/' element={<Homepage />} />
+    <Route path='/index' element={<Homepage />} />
+    <Route path='/login' element={<LoginPage />} />
+    <Route path='/pagina-item/:id' element={<PaginaCadastroObjetos />} />
+    <Route path='/register' element={<PaginaCadastroUser />} />
+    <Route path='/logout' element={<PaginaLogout />} />
+    <Route path="*" element={<Homepage />} />
+    {/* Rotas privadas */}
+    <Route element={<PrivateRoute />}>
+      <Route path="/cadastro-comodos" element={<Paginacadastrocomodos />} />
+    </Route>
+  </Routes>
+</BrowserRouter>
   )
 }
 export default App

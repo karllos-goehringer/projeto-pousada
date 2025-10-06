@@ -14,12 +14,17 @@ export default function Header() {
             boxUser = (
                 <div className={estilo.boxUser}>
                     <Link to="/login">Login</Link>
+                </Button>
+                <Button variant="outline">
                     <Link to="/register">Registrar</Link>
+                </Button>
+                <Button variant="outline">
                     <Link to="/home">Home</Link>
-                </div>
-            )
-            }
-        return (
-            <div>{boxUser}</div>
+                </Button>
+            </div>
         )
     }
+    return (
+        <div>{boxUser}</div>
+    )
+}

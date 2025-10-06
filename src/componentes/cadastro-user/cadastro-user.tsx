@@ -11,10 +11,10 @@ import {
   CardContent,
 } from "@/components/ui/card";
 
-export default function CardCadastroUser() {
+export default  function CardCadastroUser() {
   const [nome, setNome] = useState("");
   const [email, setEmail] = useState("");
-  const [senha, setSenha] = useState("");
+  const [senhaForm, setSenha] = useState("");
   const [msg, setMsg] = useState("");
 
   const navigate = useNavigate();
@@ -22,10 +22,10 @@ export default function CardCadastroUser() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    const data = { nome, email, senha };
+    const data = { nome, email, senhaForm };
 
     try {
-      const res = await fetch("http://localhost:3000/create-user", {
+      const res = await fetch("http://localhost:3000/auth/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),

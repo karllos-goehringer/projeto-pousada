@@ -1,8 +1,10 @@
 export default class User{
+    private _id:number;
     private _email: string;
     private _name: string;
     private _admin: boolean = false;
-    constructor(loggedEmail: string, loggedNameUser: string, admin: number){
+    constructor(loggedEmail: string, loggedNameUser: string, admin: number,id:number){
+        this._id = id;
         this._email = loggedEmail;
         this._name = loggedNameUser;
         if(admin){
@@ -19,5 +21,8 @@ export default class User{
     }
     public get admin() : boolean {
         return this._admin;
+    }
+    public get id() : number {
+        return this._id;
     }
 }

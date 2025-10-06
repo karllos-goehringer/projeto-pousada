@@ -10,5 +10,4 @@ class LocalStorage {
         LocalStorage._UserLogged = user;
     }
 }
-var LocalStorageInstance = LocalStorage;
-export default LocalStorageInstance;
+export default LocalStorage;

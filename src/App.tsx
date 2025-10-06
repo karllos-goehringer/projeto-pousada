@@ -5,9 +5,10 @@ import Paginacadastrocomodos from './paginas/pagina-cadastro-comodos/Pagina-cada
 import PaginaCadastroObjetos from './paginas/pagina-cadastro-objetos/Pagina-cadastro-objetos'
 //import pingTest from './backend/exec'
 import PaginaCadastroUser from './paginas/pagina-cadastro-user/pagina-cadastro-user'
-
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import PaginaLogout from './paginas/pagina-logout/pagina-logout'
+import PousadasGeral from './paginas/pagina-pousadas-geral/pousadas-geral'
+import CadastroPousadas from './paginas/pagina-cadastro-pousada/pagina-cadastro-pousada'
 function App() {
   return (
    <BrowserRouter>
@@ -19,6 +20,8 @@ function App() {
         <Route path='register' element={<PaginaCadastroUser/>}/>
         <Route path='cadastro-comodos' element={<Paginacadastrocomodos/>}/>
         <Route path='logout' element={<PaginaLogout/>}></Route>
+        <Route path='pousadas/' element={<PousadasGeral/>}></Route>
+        <Route path='/form-pousada/' element={<CadastroPousadas/>}></Route>
         <Route path="*" element={<Homepage />} />
       </Routes>
     </BrowserRouter>

@@ -13,47 +13,42 @@ import estilo from "./login-form.module.css"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Button } from "@/components/ui/button"
-import { verifyAdmin } from "@/backend/exec";
 export default function LoginForm(): JSX.Element {
     const [email, setEmail] = useState("");
     const [senha, setSenha] = useState("");
     const [msg, setMsg] = useState("");
-
     const navigate = useNavigate();
-
     const handleSubmit = async (e: React.FormEvent) => {
-        e.preventDefault();
-       
+  e.preventDefault();
+  const data = { email, senha };
+  try {
+    const res = await fetch("http://localhost:3000/auth/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data),
+    });
 
-        const data = { email, senha };
+    if (res.ok) {
+      let info = await res.json();
+      localStorage.setItem("authToken", info.token);
 
-        try {
-            const res = await fetch("http://localhost:3000/login", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(data),
-            });
-
-            if (res.ok) {
-                let info = await res.json()
-                setMsg("Tudo certo. Bem vindo!");
-                setEmail("");
-                setSenha("");
-                LocalStorageInstance.UserLogged = new User(info.email, info.nome, info.adm);
-                setTimeout(() => {
-                    navigate("/home");
-                }, 1000);
-            } else {
-                setMsg("Credenciais inválidas.");
-            }
-        } catch (err) {
-            console.error(err);
-            setMsg(" Falha na conexão com o servidor.");
-        }
-    };
+      LocalStorageInstance.UserLogged = new User(info.usuario.email, info.usuario.nome, info.usuario.adm, info.usuario.id);
+      setMsg("Tudo certo. Bem vindo!");
+      setEmail("");
+      setSenha("");
+      setTimeout(() => {
+        navigate("/home");
+      }, 1000);
+    } else {
+      setMsg("Credenciais inválidas.");
+    }
+  } catch (err) {
+    console.error(err);
+    setMsg("Falha na conexão com o servidor.");
+  }
+};
     return (
         <div className="flex items-center justify-center min-h-screen color-bg p-4 ">
-
             <Card className="w-[600px] h-[400px] text-colors white">
                 <CardHeader className="text-center mb-4">
                     <CardTitle className="text-2xl font-bold">Logar-se</CardTitle>
@@ -75,10 +70,7 @@ export default function LoginForm(): JSX.Element {
                         <div className="grid gap-2">
                             <div className="flex items-center">
                                 <Label htmlFor="password">Senha</Label>
-                                <a
-                                    href="#"
-                                    className="ml-auto inline-block text-sm underline-offset-4 hover:underline"
-                                >
+                                <a href="#" className="ml-auto inline-block text-sm underline-offset-4 hover:underline">
                                     Esqueceu a senha?
                                 </a>
                             </div>
@@ -89,7 +81,7 @@ export default function LoginForm(): JSX.Element {
                                 onChange={(e) => setSenha(e.target.value)}
                             />
                         </div>
-                        <Button type="submit" className="w-full mt-4">
+                        <Button type="submit"  className="w-full" >
                             Login
                         </Button>
                     </form>

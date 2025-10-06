@@ -32,7 +32,7 @@ export default function LoginForm(): JSX.Element {
       let info = await res.json();
       localStorage.setItem("authToken", info.token);
 
-      LocalStorageInstance.UserLogged = new User(info.usuario.email, info.usuario.nome, info.usuario.adm, info.usuario.id);
+      LocalStorage.UserLogged = new User(info.usuario.email, info.usuario.nome, info.usuario.adm, info.usuario.id);
       setMsg("Tudo certo. Bem vindo!");
       setEmail("");
       setSenha("");

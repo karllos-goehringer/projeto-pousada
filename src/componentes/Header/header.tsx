@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import estilo from "./header.module.css";
 import LocalStorage from "../../backend/LocalStorage";
+import { Button } from "@/components/ui/button";
 export default function Header() {
     let boxUser = null;
     if (LocalStorage.UserLogged != null) {
@@ -13,6 +14,7 @@ export default function Header() {
             </div>)}else{
             boxUser = (
                 <div className={estilo.boxUser}>
+                    <Button variant="outline">
                     <Link to="/login">Login</Link>
                 </Button>
                 <Button variant="outline">

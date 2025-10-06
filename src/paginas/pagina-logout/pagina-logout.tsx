@@ -1,7 +1,7 @@
 import LocalStorage from "../../backend/LocalStorage";
 
 export default function PaginaLogout(){
-    LocalStorageInstance.UserLogged = null;
+    LocalStorage.UserLogged = null;
     localStorage.removeItem('token');
     window.location.href = "/login";
     

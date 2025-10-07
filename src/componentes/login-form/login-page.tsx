@@ -51,12 +51,12 @@ export default function LoginForm(): JSX.Element {
         <div className="flex items-center justify-center min-h-screen color-bg p-4 ">
             <Card className="w-[600px] h-[400px] text-colors white">
                 <CardHeader className="text-center mb-4">
-                    <CardTitle className="text-2xl font-bold">Logar-se</CardTitle>
+                    <CardTitle className="text-2xl font-bold ">Logar-se</CardTitle>
                     <CardDescription>Entre com suas credenciais</CardDescription>
                     {msg && <p className={estilo.aviso}>{msg}</p>}
                 </CardHeader>
                 <CardContent>
-                    <form onSubmit={handleSubmit} method="POST" className="flex flex-col gap-6">
+                    <form onSubmit={handleSubmit} method="POST" className="flex flex-col gap-6 ">
                         <div className="grid gap-2">
                             <Label htmlFor="email">Email</Label>
                             <Input id="email" type="email" placeholder="email@exemplo.com" required onChange={(e) => setEmail(e.target.value)}/>
@@ -70,7 +70,7 @@ export default function LoginForm(): JSX.Element {
                             </div>
                             <Input id="password" type="password" required onChange={(e) => setSenha(e.target.value)}/>
                         </div>
-                        <Button type="submit"  className="w-full" >
+                        <Button type="submit"  className="w-full text-white" >
                             Login
                         </Button>
                     </form>

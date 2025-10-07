@@ -91,7 +91,7 @@ export default  function CardCadastroUser() {
                                 required
                                 onChange={(e) => setSenha(e.target.value)}
                             />
-                            <Button type="submit" className="w-full ">
+                            <Button type="submit" className="w-full text-white">
                             Cadastrar
                         </Button>
                         </div>

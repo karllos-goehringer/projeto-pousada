@@ -8,11 +8,12 @@ import PaginaCadastroUser from './paginas/pagina-cadastro-user/pagina-cadastro-u
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import PaginaLogout from './paginas/pagina-logout/pagina-logout'
 import PrivateRoute from './backend/private-route/private-route'
+import PousadasGeral from './paginas/pagina-pousadas-geral/pousadas-geral'
+import CadastroPousadas from './componentes/cadastro-pousada/cadastro-pousada'
 function App() {
   return (
 <BrowserRouter>
   <Routes>
-    {/* Rotas públicas */}
     <Route path='/' element={<Homepage />} />
     <Route path='/index' element={<Homepage />} />
     <Route path='/login' element={<LoginPage />} />
@@ -20,9 +21,10 @@ function App() {
     <Route path='/register' element={<PaginaCadastroUser />} />
     <Route path='/logout' element={<PaginaLogout />} />
     <Route path="*" element={<Homepage />} />
-    {/* Rotas privadas */}
     <Route element={<PrivateRoute />}>
       <Route path="/cadastro-comodos" element={<Paginacadastrocomodos />} />
+      <Route path ="/pousadas-user" element={<PousadasGeral />} />
+      <Route path='/form-pousada/' element={<CadastroPousadas />} />
     </Route>
   </Routes>
 </BrowserRouter>

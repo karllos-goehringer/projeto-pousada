@@ -5,12 +5,10 @@ import Header from "@/componentes/Header/header";
 import estilo from './pousadas-geral.module.css';
 
 export default function PousadasGeral() {
-
   interface Pousada {
     pousadaID: number;
     nomePousada: string;
   }
-
   const [dados, setDados] = useState<Pousada[] | null>(null);
   const [loading, setLoading] = useState(true);
 

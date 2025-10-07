@@ -8,19 +8,26 @@ export default function Header() {
         boxUser = (
             <div className={estilo.boxUser}>
                 <p>Bem vindo, {LocalStorage.UserLogged.name}</p>
-                <Link to ="/pousadas">Minhas Pousadas</Link>
-                <Link to="/home">Home</Link>
-                <Link to="/logout">Logout</Link>
-            </div>)}else{
-            boxUser = (
-                <div className={estilo.boxUser}>
-                    <Button variant="outline">
+                <Button variant="default">                
+                    <Link to="/pousadas-user">Minhas Pousadas</Link>
+                </Button>
+                <Button variant="outline">                
+                    <Link to="/home">Home</Link>
+                </Button>
+                <Button variant="outline">                
+                    <Link to="/logout">Logout</Link>
+                </Button>
+            </div>)
+    } else {
+        boxUser = (
+            <div className={estilo.boxUser}>
+                <Button variant="default">
                     <Link to="/login">Login</Link>
                 </Button>
-                <Button variant="outline">
+                <Button variant="default">
                     <Link to="/register">Registrar</Link>
                 </Button>
-                <Button variant="outline">
+                <Button variant="default">
                     <Link to="/home">Home</Link>
                 </Button>
             </div>

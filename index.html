@@ -4,6 +4,24 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Tailwind CDN for quick dev preview (temporary) -->
+    <script>
+      tailwind = {
+        config: {
+          theme: {
+            extend: {
+              colors: {
+                primary: 'var(--primary, #0ea5e9)',
+                'primary-foreground': 'var(--primary-foreground, #ffffff)',
+                background: 'var(--background, #ffffff)',
+                foreground: 'var(--foreground, #000000)'
+              }
+            }
+          }
+        }
+      }
+    </script>
+    <script src="https://cdn.tailwindcss.com"></script>
     <title>App</title>
   </head>
   <body>

@@ -7,11 +7,13 @@ import PaginaCadastroUser from './paginas/pagina-cadastro-user/pagina-cadastro-u
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import PaginaLogout from './paginas/pagina-logout/pagina-logout'
 import PrivateRoute from './backend/private-route/private-route'
+import { SidebarProvider } from '@/components/ui/sidebar'
 import PousadasGeral from './paginas/pagina-pousadas-geral/pousadas-geral'
 import PaginaCadastroPousadas from './paginas/pagina-cadastro-pousada/Pagina-cadastro-pousada'
 function App() {
   return (
     <BrowserRouter>
+      <SidebarProvider>
       <Routes>
         <Route path='/' element={<Homepage />} />
         <Route path='/index' element={<Homepage />} />
@@ -26,6 +28,7 @@ function App() {
           <Route path='/form-pousada/' element={<PaginaCadastroPousadas />} />
         </Route>
       </Routes>
+      </SidebarProvider>
     </BrowserRouter>
   )
 }

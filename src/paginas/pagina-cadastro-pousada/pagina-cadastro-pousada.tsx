@@ -3,7 +3,7 @@ import { FormControl, FormItem, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useForm, FormProvider } from "react-hook-form";
-import { Navigate, useNavigate } from "react-router-dom";
+import {useNavigate } from "react-router-dom";
 import LocalStorage from "@/backend/LocalStorage";
 import AppSidebar from "@/componentes/Sidebar/AppSidebar";
 import estilo from './cadastro-pousada.module.css';

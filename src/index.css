@@ -146,3 +146,25 @@ button:focus-visible {
     background-color: #242424;
   }
 }
+
+/* Sidebar: add inner padding and nicer link styles so items are not cramped */
+[data-slot="sidebar-inner"] {
+  padding: 1rem; /* inner spacing for all sidebar content */
+  gap: 0.5rem;
+}
+
+[data-slot="sidebar-inner"] a {
+  display: block;
+  padding: 0.5rem 0.75rem;
+  color: var(--sidebar-foreground);
+  border-radius: 0.375rem;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+[data-slot="sidebar-inner"] a:hover,
+[data-slot="sidebar-inner"] a:focus {
+  background-color: var(--sidebar-accent);
+  color: var(--sidebar-accent-foreground);
+}
+

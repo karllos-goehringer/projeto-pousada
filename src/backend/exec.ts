@@ -4,7 +4,6 @@ export  async function pingTest() {
     let url = "http://localhost:3000/ping"
     const response = await fetch(url);
     const data = await response.json();
-    console.log(data);
 }
 export  function verifyLogin(user:User|null):boolean{
     if(user?.email != null){

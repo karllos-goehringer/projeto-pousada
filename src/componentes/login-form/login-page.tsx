@@ -48,7 +48,7 @@ export default function LoginForm(): JSX.Element {
   }
 };
     return (
-        <div className="flex items-center justify-center min-h-screen color-bg p-4 ">
+        <div className="flex items-center align-center justify-center min-h-screen color-bg p-4 ">
             <Card className="w-[600px] h-[400px] text-colors white">
                 <CardHeader className="text-center mb-4">
                     <CardTitle className="text-2xl font-bold ">Logar-se</CardTitle>

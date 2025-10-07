@@ -1,8 +1,9 @@
 import { Link } from "react-router-dom";
 import LocalStorage from "@/backend/LocalStorage";
 import { useEffect, useState } from "react";
-import Header from "@/componentes/Header/header";
 import estilo from './pousadas-geral.module.css';
+import AppSidebar from "@/componentes/Sidebar/AppSidebar";
+import CardPousada from "@/componentes/cardPousada/cardPousada";
 
 export default function PousadasGeral() {
   interface Pousada {
@@ -41,7 +42,6 @@ export default function PousadasGeral() {
   }, []);
 
   if (loading) return <p>Carregando...</p>;
-console.log(dados);
   // definir conteúdo antes do return
   const conteudo = !dados || dados.length === 0 ? (
     <div>
@@ -52,20 +52,24 @@ console.log(dados);
   ) : (
     <div>
       <h1>Minhas Pousadas:</h1>
+    <div className={estilo.listaPousadas}>
       {dados.map((pousada: Pousada) => (
         <div key={pousada.pousadaID}>
-          <h2>{pousada.nomePousada}</h2>
+          <CardPousada nomePousada={pousada.nomePousada} idPousada={pousada.pousadaID}></CardPousada>
         </div>
       ))}
-      <Link to="/form-pousada/">Cadastrar nova Pousada</Link>
+    </div>
     </div>
   );
 
   return (
     <main>
-      <Header />
-      <div className={estilo.boxHome}>
-        {conteudo}
+      <AppSidebar></AppSidebar>
+      <div className="ml-0 md:ml-64 p-4 flex items-center justify-center min-h-screen w-full">
+
+        <div className={estilo.boxHome}>
+          {conteudo}
+        </div>
       </div>
     </main>
   );

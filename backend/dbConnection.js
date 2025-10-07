@@ -13,7 +13,6 @@ connection.connect((err) => {
     console.error('Erro ao conectar no banco:', err);
     return;
   }
-  console.log('Conectado ao banco MySQL!');
 });
 
 export default connection;

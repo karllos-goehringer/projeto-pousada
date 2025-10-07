@@ -43,12 +43,6 @@ export default function PaginaCadastroPousadas() {
             });
 
             const text = await res.text();
-            let info;
-            try {
-                info = JSON.parse(text);
-            } catch {
-                return;
-            }
 
             if (res.ok) {
                 setTimeout(() => {

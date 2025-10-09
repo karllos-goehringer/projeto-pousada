@@ -9,7 +9,7 @@ import PaginaLogout from './paginas/pagina-logout/pagina-logout'
 import PrivateRoute from './backend/private-route/private-route'
 import { SidebarProvider } from '@/components/ui/sidebar'
 import PousadasGeral from './paginas/pagina-pousadas-geral/pousadas-geral'
-import PaginaCadastroPousadas from './paginas/pagina-cadastro-pousada/Pagina-cadastro-pousada'
+import PaginaCadastroPousadas from './paginas/pagina-cadastro-pousada/pagina-cadastro-pousada'
 function App() {
   return (
     <BrowserRouter>

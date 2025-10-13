@@ -10,6 +10,7 @@ import PrivateRoute from './backend/private-route/private-route'
 import { SidebarProvider } from '@/components/ui/sidebar'
 import PousadasGeral from './paginas/pagina-pousadas-geral/pousadas-geral'
 import PaginaCadastroPousadas from './paginas/pagina-cadastro-pousada/Pagina-cadastro-pousadas'
+import PaginaPousada from './paginas/pagina-pousada/pagina-pousada'
 function App() {
   return (
     <BrowserRouter>
@@ -26,6 +27,7 @@ function App() {
           <Route path="/cadastro-comodos" element={<Paginacadastrocomodos />} />
           <Route path ="/pousadas-user" element={<PousadasGeral />} />
           <Route path='/form-pousada/' element={<PaginaCadastroPousadas />} />
+          <Route path='/pousada/single-page/:id' element={<PaginaPousada/>} />
         </Route>
       </Routes>
       </SidebarProvider>

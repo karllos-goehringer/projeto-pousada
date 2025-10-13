@@ -128,7 +128,7 @@ export default function PaginaCadastroPousadas() {
                                 <FormItem>
                                     <FormControl>
                                         <div className="w-200 flex flex-col">
-                                            <Label htmlFor="rua">Rua</Label>
+                                            <Label htmlFor="rua">Rua e nº</Label>
                                             <Input
                                                 id="rua"
                                                 {...methods.register("rua", { required: "Rua é obrigatória" })}
@@ -225,7 +225,7 @@ export default function PaginaCadastroPousadas() {
                                     </FormControl>
                                 </FormItem>
                                 {/* Botão */}
-                                <Button type="submit" className="w-auto mt-4">
+                                <Button type="submit" className="w-full mt-4">
                                     Cadastrar Pousada
                                 </Button>
                             </form>

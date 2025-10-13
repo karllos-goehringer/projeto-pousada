@@ -5,6 +5,24 @@
     align-items: center;
     justify-content: center;
     gap: 1rem;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 8px rgba(189, 189, 189, 0.1);
     border-radius: 8px;
+    border: 0.13rem solid black;
+    width: 15rem;
+    height: 15rem;
+    max-width: 15rem;
+    max-height: 15rem;
+    min-height: 15rem;
+    min-width: 15rem;
+    text-align: center;
+}
+.cardPousada:hover{
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    transform: translateY(-5px);
+    transition: all 0.3s ease;
+    border: 0.13rem solid #000000;
+    background-color: #ffffff;
+}
+.cardPousada a{
+    white-space: nowrap;
 }

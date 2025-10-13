@@ -17,18 +17,19 @@ export default function PousadasGeral() {
     const buscarPousadas = async () => {
       const token = localStorage.getItem("authToken");
       const userId = LocalStorage.UserLogged?.id;
-
+      
       if (!token || !userId) return;
 
       try {
-        const res = await fetch(`http://localhost:3000/pousada/get-pousadas/${userId}`, {
+        const res = await fetch(`http://localhost:3000/pousada/get-pousada/${userId}`, {
           headers: {
             "Authorization": `Bearer ${token}`,
           },
         });
-        if (!res.ok) throw new Error("Erro ao buscar pousadas");
+        if (!res.ok) throw new Error(res.status?`Erro: ${res.status}`:"Erro desconhecido");
 
         const dadosApi = await res.json();
+        console.log(dadosApi);
         setDados(dadosApi);
       } catch (err) {
         console.error(err);
@@ -42,8 +43,7 @@ export default function PousadasGeral() {
   }, []);
 
   if (loading) return <p>Carregando...</p>;
-  // definir conteúdo antes do return
-  const conteudo = !dados || dados.length === 0 ? (
+    const conteudo = !dados || dados.length === 0 ? (
     <div>
       <h1>Minhas Pousadas:</h1>
       <p>Nenhuma pousada cadastrada ainda. Cadastre!</p>

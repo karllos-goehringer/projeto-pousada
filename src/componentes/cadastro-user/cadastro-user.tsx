@@ -16,7 +16,7 @@ export default  function CardCadastroUser() {
   const [email, setEmail] = useState("");
   const [senhaForm, setSenha] = useState("");
   const [msg, setMsg] = useState("");
-
+  const [senhaConfirm, setSenhaConfirm] = useState("");
   const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -30,13 +30,16 @@ export default  function CardCadastroUser() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),
       });
-
+      if(senhaForm !== senhaConfirm){
+        setMsg("⚠️ As senhas não coincidem.");
+        return;
+      }
       if (res.ok) {
         setMsg("✅ Usuário cadastrado com sucesso!");
         setNome("");
         setEmail("");
         setSenha("");
-
+        setSenhaConfirm("");
         setTimeout(() => {
           navigate("/login");
         }, 1000);
@@ -90,6 +93,13 @@ export default  function CardCadastroUser() {
                                 type="password"
                                 required
                                 onChange={(e) => setSenha(e.target.value)}
+                            />
+                            <Label htmlFor="confirm-password">Confirme sua senha:</Label>
+                            <Input
+                                id="confirm-password"
+                                type="confirm-password"
+                                required
+                                onChange={(e) => setSenhaConfirm(e.target.value)}
                             />
                             <Button type="submit" className="w-full text-white">
                             Cadastrar

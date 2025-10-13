@@ -3,15 +3,13 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    /* center vertically inside the viewport */
     min-height: calc(100vh - 2rem);
     width: 100vw;
-    max-width: 1200px; /* constrain form width */
-    margin: 0 auto; /* center horizontally within available space */
+    max-width: 1200px; 
+    margin: 0 auto;
     padding: 1.25rem;
     box-sizing: border-box;
 }
-/* cleaned stray rules that caused compile errors */
 .listaPousadas{
     display: flex;
     flex-direction: row;
@@ -19,4 +17,6 @@
     justify-content: center;
     gap: 1rem;
     padding: 1rem;
+    flex-wrap: wrap;
+    overflow-y: auto;
 }

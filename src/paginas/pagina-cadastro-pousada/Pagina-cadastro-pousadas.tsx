@@ -41,9 +41,6 @@ export default function PaginaCadastroPousadas() {
                 },
                 body: JSON.stringify(data),
             });
-
-            const text = await res.text();
-
             if (res.ok) {
                 setTimeout(() => {
         navigate("/pousadas-user");

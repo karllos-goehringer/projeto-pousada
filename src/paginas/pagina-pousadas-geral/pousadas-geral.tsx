@@ -29,7 +29,6 @@ export default function PousadasGeral() {
         if (!res.ok) throw new Error(res.status?`Erro: ${res.status}`:"Erro desconhecido");
 
         const dadosApi = await res.json();
-        console.log(dadosApi);
         setDados(dadosApi);
       } catch (err) {
         console.error(err);

@@ -53,7 +53,7 @@ export default function LoginForm(): JSX.Element {
                 <CardHeader className="text-center mb-4">
                     <CardTitle className="text-2xl font-bold ">Logar-se</CardTitle>
                     <CardDescription>Entre com suas credenciais</CardDescription>
-                    {msg && <p className={estilo.aviso}>{msg}</p>}
+                    {msg && <p className="color: var(--primary)">{msg}</p>}
                 </CardHeader>
                 <CardContent>
                     <form onSubmit={handleSubmit} method="POST" className="flex flex-col gap-6 ">

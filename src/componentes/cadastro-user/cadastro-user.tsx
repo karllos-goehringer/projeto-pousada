@@ -59,7 +59,7 @@ export default  function CardCadastroUser() {
                 <CardHeader className="text-center mb-4">
                     <CardTitle className="text-2xl font-bold">Cadastre-se</CardTitle>
                     <CardDescription>Vamos criar sua conta</CardDescription>
-                    {msg && <p >{msg}</p>}
+                    {msg && <p className="color: var(--primary)">{msg}</p>}
                 </CardHeader>
                 <CardContent>
                     <form onSubmit={handleSubmit} method="POST" className="flex flex-col gap-6">
@@ -97,7 +97,7 @@ export default  function CardCadastroUser() {
                             <Label htmlFor="confirm-password">Confirme sua senha:</Label>
                             <Input
                                 id="confirm-password"
-                                type="confirm-password"
+                                type="password"
                                 required
                                 onChange={(e) => setSenhaConfirm(e.target.value)}
                             />

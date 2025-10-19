@@ -17,12 +17,13 @@ export default  function CardCadastroUser() {
   const [senhaForm, setSenha] = useState("");
   const [msg, setMsg] = useState("");
   const [senhaConfirm, setSenhaConfirm] = useState("");
+  const [codRecuperacaoUnico, setCod] = useState("");
   const navigate = useNavigate();
-
+  
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    const data = { nome, email, senhaForm };
+    const data = { nome, email, senhaForm, codRecuperacaoUnico };
 
     try {
       const res = await fetch("http://localhost:3000/auth/register", {
@@ -31,11 +32,11 @@ export default  function CardCadastroUser() {
         body: JSON.stringify(data),
       });
       if(senhaForm !== senhaConfirm){
-        setMsg("⚠️ As senhas não coincidem.");
+        setMsg("As senhas não coincidem.");
         return;
       }
       if (res.ok) {
-        setMsg("✅ Usuário cadastrado com sucesso!");
+        setMsg("Usuário cadastrado com sucesso!");
         setNome("");
         setEmail("");
         setSenha("");
@@ -44,7 +45,7 @@ export default  function CardCadastroUser() {
           navigate("/login");
         }, 1000);
       } else {
-        setMsg("❌ Erro ao cadastrar usuário.");
+        setMsg("Erro ao cadastrar usuário.");
       }
     } catch (err) {
       console.error(err);
@@ -104,8 +105,9 @@ export default  function CardCadastroUser() {
                             <Button type="submit" className="w-full text-white">
                             Cadastrar
                         </Button>
+                        <Input id="codRecuperacao" value={'qlqrcoisaporenquanto'} onChange={(e) => setCod(e.target.defaultValue)} disabled={true} className="invisible"/>
                         </div>
-                        
+                      
                     </form>
                 </CardContent>
             </Card>

@@ -15,7 +15,9 @@ interface propsEndereco {
   cidade: string;
   bairro: string;
   rua: string;
+  numResidencia: string;
   id: string | undefined;
+
 }
 
 export default function EnderecoForm(props: propsEndereco) {
@@ -27,7 +29,8 @@ export default function EnderecoForm(props: propsEndereco) {
       uf: props.uf || "",
       cidade: props.cidade || "",
       bairro: props.bairro || "",
-      rua: props.rua || ""
+      rua: props.rua || "",
+      numResidencia: props.numResidencia || "", 
     },
   });
 
@@ -52,9 +55,10 @@ export default function EnderecoForm(props: propsEndereco) {
 
       if (res.ok) {
         setMsg("✅ Atualização feita!");
-         setTimeout(() => {
-    window.location.reload(); 
-  }, 500);
+        setTimeout(() => form.reset(data))
+        setIsLocked(true)
+        setMsg("")
+
       } else {
         setMsg("❌ Erro ao atualizar endereço.");
       }
@@ -117,6 +121,19 @@ export default function EnderecoForm(props: propsEndereco) {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Rua</FormLabel>
+                  <FormControl>
+                    <Input {...field} disabled={isLocked} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="numResidencia"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Número da Residência</FormLabel>
                   <FormControl>
                     <Input {...field} disabled={isLocked} />
                   </FormControl>

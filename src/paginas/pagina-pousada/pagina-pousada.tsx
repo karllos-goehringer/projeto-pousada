@@ -27,13 +27,14 @@ export default function PaginaPousada() {
           uf: dadosApi.enderecoPousada.uf,
           cidade: dadosApi.enderecoPousada.cidade,
           bairro: dadosApi.enderecoPousada.bairro,
-          rua: dadosApi.enderecoPousada.rua
+          rua: dadosApi.enderecoPousada.rua,
+          numResidencia: dadosApi.enderecoPousada.numResidencia,
         }
         let apiDadosContato = {
 
         
           telefone: dadosApi.contatoPousada.telefone,
-          telefoneAlternativo: dadosApi.contatoPousada.telefonealternativo,
+          telefoneAlternativo: dadosApi.contatoPousada.telefoneAlternativo,
           email: dadosApi.contatoPousada.email,
         }
         setDadosContato(apiDadosContato),
@@ -65,6 +66,7 @@ export default function PaginaPousada() {
                 cidade={dadosEndereco.cidade}
                 bairro={dadosEndereco.bairro}
                 rua={dadosEndereco.rua}
+                numResidencia={dadosEndereco.numResidencia}
                 id={pousadaID}
               />
             ) : (
@@ -74,8 +76,8 @@ export default function PaginaPousada() {
               <p>Carregando endereço...</p>
             ) : dadosEndereco && dadosContato ? (
               <ContatoForm
-                telefone={`+55${dadosContato.telefone}`}
-                telefoneAlternativo={`+55${dadosContato.telefoneAlternativo}`}
+                telefone = {dadosContato.telefone}
+                telefoneAlternativo={dadosContato.telefoneAlternativo}
                 email={dadosContato.email}
                 id={pousadaID}
               />

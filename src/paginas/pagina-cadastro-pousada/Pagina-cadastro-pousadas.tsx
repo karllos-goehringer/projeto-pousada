@@ -20,7 +20,26 @@ type PousadaFormValues = {
   cidade: string;
   uf: string;
   id: number;
+  numResidencia:string;
 };
+
+function parseTelefone(telefone: string) {
+  if (!telefone) return { bandeira: "", prefixoRegional: "", numero: "" };
+  // remove espaços e parênteses
+  const limpo = telefone.replace(/[()\s-]/g, "");
+  // exemplo: +5527999999999
+  const match = limpo.match(/^(\+\d{2})(\d{2})(\d{8,9})$/);
+  if (!match) {
+    console.warn("Telefone em formato inesperado:", telefone);
+    return { bandeira: "", prefixoRegional: "", numero: telefone };
+  }
+
+  return {
+    bandeira: match[1],          // +55
+    prefixoRegional: match[2],   // 27
+    numero: match[3],            // 999999999 ou 99999999
+  };
+}
 
 export default function PaginaCadastroPousadas() {
   const methods = useForm<PousadaFormValues>();
@@ -35,6 +54,23 @@ export default function PaginaCadastroPousadas() {
         console.error("Token ou userId não encontrados");
         return;
       }
+      let telefoneAlternativo = { bandeira: " ", prefixoRegional: " ", numero: " " };
+      const telefonePrincipal = parseTelefone(data.telefone);
+      if(data.telefoneAlternativo){
+       telefoneAlternativo = parseTelefone(data.telefoneAlternativo);
+      }
+      const payload = {
+        nomePousada:data.nomePousada,
+        email: data.email,
+        telefone: telefonePrincipal,
+        telefoneAlternativo: telefoneAlternativo,
+        cidade:data.cidade,
+        bairro:data.bairro,
+        numResidencia:data.numResidencia,
+        rua:data.rua,
+        uf:data.uf,
+        id:data.id,
+      };
 
       const res = await fetch(`http://localhost:3000/pousada/register/`, {
         method: "POST",
@@ -42,7 +78,7 @@ export default function PaginaCadastroPousadas() {
           "Content-Type": "application/json",
           "Authorization": `Bearer ${token}`
         },
-        body: JSON.stringify(data),
+        body: JSON.stringify(payload),
       });
 
       if (res.ok) {
@@ -145,10 +181,26 @@ export default function PaginaCadastroPousadas() {
                 <FormItem>
                   <FormControl>
                     <div className="w-200 flex flex-col">
-                      <Label htmlFor="rua">Rua e nº</Label>
+                      <Label htmlFor="rua">Rua</Label>
                       <Input
                         id="rua"
                         {...methods.register("rua", { required: "Rua é obrigatória" })}
+                      />
+                      {methods.formState.errors.rua && (
+                        <FormMessage>{methods.formState.errors.rua.message}</FormMessage>
+                      )}
+                    </div>
+                  </FormControl>
+                </FormItem>
+                {/* Nº da Residencia */}
+                <FormItem>
+                  <FormControl>
+                    <div className="w-200 flex flex-col">
+                      <Label htmlFor="numResidencia">Número da Residencia</Label>
+                      <Input
+                      type="number"
+                        id="numResidencia"
+                        {...methods.register("numResidencia", { required: "Rua é obrigatória" })}
                       />
                       {methods.formState.errors.rua && (
                         <FormMessage>{methods.formState.errors.rua.message}</FormMessage>

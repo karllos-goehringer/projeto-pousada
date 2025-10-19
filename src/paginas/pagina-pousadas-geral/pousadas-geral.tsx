@@ -7,7 +7,7 @@ import CardPousada from "@/componentes/cardPousada/cardPousada";
 
 export default function PousadasGeral() {
   interface Pousada {
-    pousadaID: number;
+    PK_pousadaID: number;
     nomePousada: string;
   }
   const [dados, setDados] = useState<Pousada[] | null>(null);
@@ -53,8 +53,8 @@ export default function PousadasGeral() {
       <h1>Minhas Pousadas:</h1>
     <div className={estilo.listaPousadas}>
       {dados.map((pousada: Pousada) => (
-        <div key={pousada.pousadaID}>
-          <CardPousada nomePousada={pousada.nomePousada} idPousada={pousada.pousadaID}></CardPousada>
+        <div key={pousada.PK_pousadaID}>
+          <CardPousada nomePousada={pousada.nomePousada} idPousada={pousada.PK_pousadaID}></CardPousada>
         </div>
       ))}
     </div>

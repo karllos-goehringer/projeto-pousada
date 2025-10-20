@@ -16,6 +16,7 @@
     align-items: center;
     justify-content: center;
     gap: 1rem;
+    margin-left: 10rem;
     padding: 1rem;
     flex-wrap: wrap;
     overflow-y: auto;

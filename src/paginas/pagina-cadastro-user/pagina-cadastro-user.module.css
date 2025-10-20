@@ -8,6 +8,7 @@
     width: 100vw;
     max-width: 1200px; /* constrain form width */
     margin: 0 auto; /* center horizontally within available space */
+    margin-left: 10rem;
     padding: 1.25rem;
     box-sizing: border-box;
 }

@@ -34,7 +34,7 @@ export default function DialogCadastroComodo({
         <DialogHeader>
           <DialogTitle>Cadastrar novo Cômodo</DialogTitle>
           <DialogDescription>
-            {/* repassa o callback ao CardCadastroComodo */}
+            {/* ✅ repassa o callback ao CardCadastroComodo */}
             <CardCadastroComodo id={PFK_pousadaID} onCreated={onCreated} />
           </DialogDescription>
         </DialogHeader>

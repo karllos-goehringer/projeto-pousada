@@ -4,46 +4,57 @@ import { CardContent } from "@/components/ui/card";
 import { Label } from "@radix-ui/react-label";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-interface propsComodos {
+
+interface PropsComodos {
   id: string | undefined;
-  onCreated?: () => void;
+  onCreated?: () => void; // callback opcional para atualizar lista
+  onClose?: () => void;   // callback opcional para fechar o diálogo
 }
-export default function CardCadastroComodo({id, onCreated}:propsComodos) {
+
+export default function CardCadastroComodo({ id, onCreated, onClose }: PropsComodos) {
   const [msg, setMsg] = useState("");
   const { register, handleSubmit, reset } = useForm();
 
- const onSubmit = async (data: any) => {
-  if (!id) {
-    setMsg("⚠️ ID da pousada não definido!");
-    return;
-  }
+  const onSubmit = async (data: any) => {
+    if (!id) {
+      setMsg("⚠️ ID da pousada não definido!");
+      return;
+    }
 
-  data.PFK_pousadaID = Number(id); // garante tipo correto
-  console.log(id)
-  const token = localStorage.getItem("authToken");
-  if (!token) {
-    setMsg("⚠️ Usuário não autenticado.");
-    return;
-  }
+    data.PFK_pousadaID = Number(id);
+    const token = localStorage.getItem("authToken");
+    if (!token) {
+      setMsg("⚠️ Usuário não autenticado.");
+      return;
+    }
 
-  const res = await fetch(`http://localhost:3000/comodo/comodos/create-comodo`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
-    },
-    body: JSON.stringify(data),
-  });
+    try {
+      const res = await fetch(`http://localhost:3000/comodo/comodos/create-comodo`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(data),
+      });
 
-  if (res.ok) {
-    setMsg("✅ Cômodo cadastrado com sucesso!");
-    if (onCreated) onCreated();
-    reset();
+      if (res.ok) {
+        setMsg("✅ Cômodo cadastrado com sucesso!");
+        reset();
 
-} else {
-    setMsg("❌ Erro ao cadastrar cômodo.");
-  }
-};
+        // Chama o callback para recarregar a lista
+        if (onCreated) onCreated();
+
+        // Fecha o diálogo (se disponível)
+        if (onClose) onClose();
+      } else {
+        const erro = await res.text();
+        setMsg(`❌ Erro: ${erro || "Falha ao cadastrar cômodo."}`);
+      }
+    } catch (err: any) {
+      setMsg("❌ Erro de conexão com o servidor.");
+    }
+  };
 
   return (
     <CardContent>
@@ -52,6 +63,7 @@ export default function CardCadastroComodo({id, onCreated}:propsComodos) {
           <Label htmlFor="comodoNome">Nome:</Label>
           <Input id="comodoNome" {...register("comodoNome")} type="text" required />
         </div>
+
         <div>
           <Label htmlFor="tipoComodo">Tipo de cômodo:</Label>
           <select
@@ -78,24 +90,29 @@ export default function CardCadastroComodo({id, onCreated}:propsComodos) {
             <option value="Outros">Outros (Adicione o nome depois!)</option>
           </select>
         </div>
+
         <div>
           <Label htmlFor="descComodo">Descrição:</Label>
           <Input id="descComodo" {...register("descComodo")} type="text" />
         </div>
+
         <div>
           <Label htmlFor="capacidadePessoas">Capacidade de Pessoas:</Label>
           <Input id="capacidadePessoas" {...register("capacidadePessoas")} type="number" min="1" />
         </div>
+
         <div>
           <Label htmlFor="comodoStatus">Status atual:</Label>
           <Input id="comodoStatus" {...register("comodoStatus")} type="text" />
         </div>
+
         <div className="flex justify-between pt-3">
           <Button className="w-full" type="submit">
             Salvar
           </Button>
         </div>
-        {<p className="text-center text-sm mt-2">{msg}</p>}
+
+        {msg && <p className="text-center text-sm mt-2">{msg}</p>}
       </form>
     </CardContent>
   );

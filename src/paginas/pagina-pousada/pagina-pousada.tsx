@@ -13,16 +13,7 @@ export default function PaginaPousada() {
   const [dadosEndereco, setDadosEndereco] = useState<any | null>(null);
   const [dadosContato, setDadosContato] = useState<any | null>(null)
   const [dadosPousada, setDadosPousada] = useState<any | null>(null)
-  const mockCardComodos = {
-    id: "22",
-    comodos: [
-      { nome: "Quarto" },
-      { nome: "Quarto 2" },
-      { nome: "Cozinha" },
-      { nome: "Sala de Estar" },
-      { nome: "Banheiro" },
-    ],
-  };
+ 
   useEffect(() => {
     if (!pousadaID) return;
     async function buscarPousada() {
@@ -124,7 +115,7 @@ export default function PaginaPousada() {
               ) : (
                 <p>Contato não registrado</p>
               )}
-              <CardComodos {...mockCardComodos}></CardComodos>
+              <CardComodos id={pousadaID}></CardComodos>
 
 
             </div>

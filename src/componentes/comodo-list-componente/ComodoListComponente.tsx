@@ -1,7 +1,8 @@
 import { InboxIcon } from "@/components/ui/icons/akar-icons-inbox";
+import { Link } from "react-router-dom";
 
 interface Comodo {
-  id: number;
+  PK_comodoID: number;
   comodoNome: string;
   comodoTipo?: string;
   descComodo?: string;
@@ -15,12 +16,14 @@ interface ComodoIconButtonProps {
 
 export default function ComodoIconButton({ comodo }: ComodoIconButtonProps) {
   return (
-    <div className="flex flex-row items-center gap-2 p-2 border rounded shadow-sm">
-      <InboxIcon />
-      <div>
-        <p className="font-semibold">{comodo.comodoNome}</p>
-        {comodo.comodoTipo && <p className="text-sm text-gray-500">{comodo.comodoTipo}</p>}
+    <Link to={`/pousada/comodo/${comodo.PK_comodoID}`} className="text-black">
+      <div className="flex flex-row items-center gap-2 p-2 border rounded shadow-sm">
+        <InboxIcon />
+        <div>
+          <p className="font-semibold">{comodo.comodoNome}</p>
+          {comodo.comodoTipo && <p className="text-sm text-gray-500">{comodo.comodoTipo}</p>}
+        </div>
       </div>
-    </div>
+    </Link>
   );
 }

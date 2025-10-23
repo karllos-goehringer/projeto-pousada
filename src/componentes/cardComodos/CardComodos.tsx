@@ -5,12 +5,9 @@ import DialogCadastroComodo from "../dialog-cadastro-comodo/Dialog-Cadastro-Como
 import ComodoIconButton from "../comodo-list-componente/ComodoListComponente";
 
 interface Comodo {
-  id: number;
+  PK_comodoID: number;
   comodoNome: string;
-  comodoTipo: string;
-  descComodo?: string;
-  capacidadePessoas?: number;
-  comodoStatus?: string;
+  
 }
 
 interface CardComodosProps {
@@ -23,8 +20,7 @@ export default function CardComodos({ id }: CardComodosProps) {
   const [msg, setMsg] = useState("");
   const [loading, setLoading] = useState(false);
 
-useEffect(() => {
-  const fetchComodos = async () => {
+const fetchComodos = async () => {
     if (!id) return;
     setLoading(true);
     try {
@@ -40,6 +36,7 @@ useEffect(() => {
 
       const data: Comodo[] = await res.json();
       setComodos(data);
+      console.log(data)
     } catch (err: any) {
       console.error(err);
       setMsg(err.message || "Erro desconhecido");
@@ -47,8 +44,10 @@ useEffect(() => {
       setLoading(false);
     }
   };
-  fetchComodos();
-}, [id]);
+
+  useEffect(() => {
+    fetchComodos();
+  }, [id]);
 
   return (
     <Card className="max-w-md mx-auto mt-10">
@@ -71,9 +70,9 @@ useEffect(() => {
         {!loading && comodos.length === 0 && <p>Nenhum cômodo cadastrado.</p>}
         {!loading &&
           comodos.map((comodo) => (
-  <ComodoIconButton key={comodo.id} comodo={comodo} />
+  <ComodoIconButton key={comodo.PK_comodoID} comodo={comodo} />
 ))}
-        <DialogCadastroComodo disabled={isLocked} PFK_pousadaID={id} />
+        <DialogCadastroComodo disabled={isLocked} PFK_pousadaID={id}   onCreated={fetchComodos} />
         {msg && <p className="text-center text-sm mt-2">{msg}</p>}
       </CardContent>
     </Card>

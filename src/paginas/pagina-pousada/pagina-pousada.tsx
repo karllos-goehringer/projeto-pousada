@@ -14,7 +14,7 @@ export default function PaginaPousada() {
   const [dadosContato, setDadosContato] = useState<any | null>(null)
   const [dadosPousada, setDadosPousada] = useState<any | null>(null)
   const mockCardComodos = {
-    id: "123",
+    id: "22",
     comodos: [
       { nome: "Quarto" },
       { nome: "Quarto 2" },
@@ -53,7 +53,7 @@ export default function PaginaPousada() {
           nomePousada: dadosApi.dataPousada.nomePousada
         }
         setDadosContato(apiDadosContato),
-          setDadosEndereco(apiDadosEndereco);
+        setDadosEndereco(apiDadosEndereco);
         setDadosPousada(apiDadosPousada)
       } catch (err) {
         setDadosEndereco([]);
@@ -130,8 +130,6 @@ export default function PaginaPousada() {
             </div>
             <Card className="max-w-md mx-auto mt-10 flex flex-col justify-between h-full">
               <CardContent className="flex flex-col gap-4">
-                {/* Lista de cômodos aqui */}
-
                 <div className="mt-auto flex justify-start">
                   <Button
                     className="bg-red-600 hover:bg-red-700 text-white"

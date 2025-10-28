@@ -2,8 +2,19 @@ import AppSidebar from "@/componentes/Sidebar/AppSidebar";
 import { useParams } from "react-router-dom";
 import estilo from './Pagina-comodo-css.module.css'
 import { useEffect, useState } from "react";
+import ViewComodo from "@/componentes/view-comodo/view-comodo";
+interface Comodo {
+    PFK_pousadaID: string | undefined;
+    PK_comodoID: string | undefined;
+    capacidadePessoas: number | undefined;
+    comodoNome: string | undefined;
+    comodoStatus: string | undefined;
+    comodoTipo: string | undefined;
+    descComodo: string | undefined;
+}
+
 export default function PaginaComodo() {
-    const [dadosObjetos, setDadosObjetos] = useState<any | null>(null)
+    const [dadosObjetos, setDadosObjetos] = useState<Comodo | null>(null)
     const [loading, setLoading] = useState(true);
 
     const { id: comodoID } = useParams<{ id: string }>();
@@ -19,8 +30,8 @@ export default function PaginaComodo() {
                 if (!res.ok) throw new Error(res.status ? `Erro: ${res.status}` : "Erro desconhecido");
 
                 const comodoData = await res.json();
-                console.log(comodoData)
                 setDadosObjetos(comodoData);
+                console.log(comodoData)
             } catch (err) {
             } finally {
                 setLoading(false);
@@ -40,14 +51,15 @@ export default function PaginaComodo() {
                             {loading ? (
                                 <p>Carregando...</p>
                             ) : (
-                                <div>
-                                    {<p>{dadosObjetos[0]?.comodoNome || "Nome do cômodo não disponível"}</p>}
-                                    <p>{dadosObjetos[0]?.comodoStatus || "Nome do cômodo não disponível"}</p>
-                                    <p>{dadosObjetos[0]?.descComodo || "Nome do cômodo não disponível"}</p>
-                                    <p>{dadosObjetos[0]?.capacidadePessoas || "Nome do cômodo não disponível"}</p>
-                                </div>
-                                
-                            )}
+                            <ViewComodo 
+                            PFK_pousadaID={dadosObjetos?.PFK_pousadaID} 
+                            PK_comodoID={dadosObjetos?.PK_comodoID} 
+                            capacidadePessoas={dadosObjetos?.capacidadePessoas} 
+                            comodoNome={dadosObjetos?.comodoNome} 
+                            comodoStatus={dadosObjetos?.comodoStatus} 
+                            comodoTipo={dadosObjetos?.comodoTipo} 
+                            descComodo={dadosObjetos?.descComodo}
+                            /> )}
                         </div>
                     </div>
                 </div>

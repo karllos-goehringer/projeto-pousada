@@ -43,7 +43,6 @@ export default function EnderecoForm(props: propsEndereco) {
         console.error("Token ou userId não encontrados");
         return;
       }
-      console.log(props.id)
       const res = await fetch(`http://localhost:3000/pousada/pousada-update-endereco/${props.id}`, {
           method: "PUT",
         headers: {

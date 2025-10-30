@@ -26,7 +26,6 @@ export default function PaginaPousada() {
         if (!res.ok) throw new Error(res.status ? `Erro: ${res.status}` : "Erro desconhecido");
 
         const dadosApi = await res.json();
-        console.log(dadosApi)
         let apiDadosEndereco = {
           uf: dadosApi.enderecoPousada.uf,
           cidade: dadosApi.enderecoPousada.cidade,

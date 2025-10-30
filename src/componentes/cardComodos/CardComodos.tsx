@@ -36,12 +36,12 @@ const fetchComodos = async () => {
 
       const data: Comodo[] = await res.json();
       setComodos(data);
-      console.log(data)
     } catch (err: any) {
       console.error(err);
       setMsg(err.message || "Erro desconhecido");
     } finally {
       setLoading(false);
+      setIsLocked(true);
     }
   };
 
@@ -70,7 +70,7 @@ const fetchComodos = async () => {
         {!loading && comodos.length === 0 && <p>Nenhum cômodo cadastrado.</p>}
         {!loading &&
           comodos.map((comodo) => (
-  <ComodoIconButton key={comodo.PK_comodoID} comodo={comodo} />
+  <ComodoIconButton key={comodo.PK_comodoID} comodo={comodo} locked={isLocked} onCreated={fetchComodos}/>
 ))}
         <DialogCadastroComodo disabled={isLocked} PFK_pousadaID={id}   onCreated={fetchComodos} />
         {msg && <p className="text-center text-sm mt-2">{msg}</p>}

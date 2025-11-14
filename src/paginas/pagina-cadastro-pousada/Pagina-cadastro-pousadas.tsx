@@ -6,7 +6,7 @@ import { useForm, FormProvider, Controller } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import LocalStorage from "@/backend/LocalStorage";
 import AppSidebar from "@/componentes/Sidebar/AppSidebar";
-import estilo from './cadastro-pousada.module.css';
+import estilo from "./cadastro-pousada.module.css";
 import PhoneInput from "react-phone-number-input";
 import "react-phone-number-input/style.css";
 
@@ -20,24 +20,19 @@ type PousadaFormValues = {
   cidade: string;
   uf: string;
   id: number;
-  numResidencia:string;
+  numResidencia: string;
 };
 
 function parseTelefone(telefone: string) {
   if (!telefone) return { bandeira: "", prefixoRegional: "", numero: "" };
-  // remove espaços e parênteses
   const limpo = telefone.replace(/[()\s-]/g, "");
-  // exemplo: +5527999999999
   const match = limpo.match(/^(\+\d{2})(\d{2})(\d{8,9})$/);
-  if (!match) {
-    console.warn("Telefone em formato inesperado:", telefone);
-    return { bandeira: "", prefixoRegional: "", numero: telefone };
-  }
+  if (!match) return { bandeira: "", prefixoRegional: "", numero: telefone };
 
   return {
-    bandeira: match[1],          // +55
-    prefixoRegional: match[2],   // 27
-    numero: match[3],            // 999999999 ou 99999999
+    bandeira: match[1],
+    prefixoRegional: match[2],
+    numero: match[3],
   };
 }
 
@@ -50,33 +45,33 @@ export default function PaginaCadastroPousadas() {
       const token = localStorage.getItem("authToken");
       const userId = LocalStorage.UserLogged?.id;
 
-      if (!token || !userId) {
-        console.error("Token ou userId não encontrados");
-        return;
-      }
+      if (!token || !userId) return;
+
       let telefoneAlternativo = { bandeira: " ", prefixoRegional: " ", numero: " " };
+
       const telefonePrincipal = parseTelefone(data.telefone);
-      if(data.telefoneAlternativo){
-       telefoneAlternativo = parseTelefone(data.telefoneAlternativo);
+      if (data.telefoneAlternativo) {
+        telefoneAlternativo = parseTelefone(data.telefoneAlternativo);
       }
+
       const payload = {
-        nomePousada:data.nomePousada,
+        nomePousada: data.nomePousada,
         email: data.email,
         telefone: telefonePrincipal,
         telefoneAlternativo: telefoneAlternativo,
-        cidade:data.cidade,
-        bairro:data.bairro,
-        numResidencia:data.numResidencia,
-        rua:data.rua,
-        uf:data.uf,
-        id:data.id,
+        cidade: data.cidade,
+        bairro: data.bairro,
+        rua: data.rua,
+        numResidencia: data.numResidencia,
+        uf: data.uf,
+        id: data.id,
       };
 
       const res = await fetch(`http://localhost:3000/pousada/register/`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "Authorization": `Bearer ${token}`
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify(payload),
       });
@@ -92,220 +87,142 @@ export default function PaginaCadastroPousadas() {
   };
 
   return (
-    <main className="min-h-screen">
+    <main className="min-h-screen flex bg-gray-50">
       <AppSidebar />
-      <div className="ml-0 md:ml-64 p-4 flex items-center justify-center min-h-screen w-full">
-        <div className={estilo.boxHome}>
-          <h1 className="max-w-md text-2xl font-bold text-center my-2">
-            Cadastrando Pousada:
+
+      <div className="ml-0 md:ml-64 w-full p-4 flex justify-center">
+        <div className="w-full max-w-xl bg-white rounded-xl shadow-md p-6">
+          <h1 className="text-2xl font-bold text-center mb-6">
+            Cadastrar Nova Pousada
           </h1>
-          <div className="max-w-md p-4 rounded-lg shadow flex justify-center m-auto">
-            <FormProvider {...methods}>
-              <form
-                onSubmit={methods.handleSubmit(onSubmit)}
-                className="align-middle m-auto space-y-4"
-              >
-                {/* Nome da Pousada */}
-                <FormItem>
-                  <FormControl>
-                    <div className="w-400 flex flex-col">
-                      <Label htmlFor="nomePousada">Nome da Pousada</Label>
-                      <Input
-                        id="nomePousada"
-                        {...methods.register("nomePousada", { required: "Nome é obrigatório" })}
+
+          <FormProvider {...methods}>
+            <form onSubmit={methods.handleSubmit(onSubmit)} className="space-y-5">
+
+              {/* Nome da pousada */}
+              <FormItem>
+                <Label>Nome da Pousada</Label>
+                <Input
+                  {...methods.register("nomePousada", { required: "Nome é obrigatório" })}
+                />
+                <FormMessage>
+                  {methods.formState.errors.nomePousada?.message}
+                </FormMessage>
+              </FormItem>
+
+              {/* Email */}
+              <FormItem>
+                <Label>Email</Label>
+                <Input
+                  type="email"
+                  {...methods.register("email", { required: "Email é obrigatório" })}
+                />
+                <FormMessage>
+                  {methods.formState.errors.email?.message}
+                </FormMessage>
+              </FormItem>
+
+              {/* Telefone */}
+              <FormItem>
+                <Label>Telefone</Label>
+                <Controller
+                  name="telefone"
+                  control={methods.control}
+                  rules={{ required: "Telefone é obrigatório" }}
+                  render={({ field, fieldState }) => (
+                    <div className="flex flex-col">
+                      <PhoneInput
+                        {...field}
+                        defaultCountry="BR"
+                        className="p-2 border rounded-md"
                       />
-                      {methods.formState.errors.nomePousada && (
-                        <FormMessage>{methods.formState.errors.nomePousada.message}</FormMessage>
+                      {fieldState.error && (
+                        <FormMessage>{fieldState.error.message}</FormMessage>
                       )}
                     </div>
-                  </FormControl>
-                </FormItem>
+                  )}
+                />
+              </FormItem>
 
-                {/* Email */}
-                <FormItem>
-                  <FormControl>
-                    <div className="w-400 flex flex-col">
-                      <Label htmlFor="email">Email</Label>
-                      <Input
-                        type="email"
-                        id="email"
-                        {...methods.register("email", { required: "Email é obrigatório" })}
-                      />
-                      {methods.formState.errors.email && (
-                        <FormMessage>{methods.formState.errors.email.message}</FormMessage>
-                      )}
-                    </div>
-                  </FormControl>
-                </FormItem>
-
-                {/* Telefone Principal */}
-                <FormItem>
-                  <FormControl>
-                    <div className="w-400 flex flex-col">
-                      <Label htmlFor="telefone">Telefone</Label>
-                      <Controller
-                        name="telefone"
-                        control={methods.control}
-                        rules={{ required: "Telefone é obrigatório" }}
-                        render={({ field, fieldState }) => (
-                          <>
-                            <PhoneInput {...field} defaultCountry="BR" value={field.value} onChange={field.onChange}
-                            />
-                            {fieldState.error && <FormMessage>{fieldState.error.message}</FormMessage>}
-                          </>
-                        )}
-                      />
-                    </div>
-                  </FormControl>
-                </FormItem>
-
-                {/* Telefone Alternativo */}
-                <FormItem>
-                  <FormControl>
-                    <div className="w-400 flex flex-col">
-                      <Label htmlFor="telefoneAlternativo">Telefone Alternativo</Label>
-                      <Controller
-                        name="telefoneAlternativo"
-                        control={methods.control}
-                        render={({ field }) => (
-                          <PhoneInput
-                            {...field} defaultCountry="BR" value={field.value} onChange={field.onChange}
-                          />
-                        )}
-                      />
-                    </div>
-                  </FormControl>
-                </FormItem>
-
-                {/* Rua */}
-                <FormItem>
-                  <FormControl>
-                    <div className="w-200 flex flex-col">
-                      <Label htmlFor="rua">Rua</Label>
-                      <Input
-                        id="rua"
-                        {...methods.register("rua", { required: "Rua é obrigatória" })}
-                      />
-                      {methods.formState.errors.rua && (
-                        <FormMessage>{methods.formState.errors.rua.message}</FormMessage>
-                      )}
-                    </div>
-                  </FormControl>
-                </FormItem>
-                {/* Nº da Residencia */}
-                <FormItem>
-                  <FormControl>
-                    <div className="w-200 flex flex-col">
-                      <Label htmlFor="numResidencia">Número da Residencia</Label>
-                      <Input
-                      type="number"
-                        id="numResidencia"
-                        {...methods.register("numResidencia", { required: "Rua é obrigatória" })}
-                      />
-                      {methods.formState.errors.rua && (
-                        <FormMessage>{methods.formState.errors.rua.message}</FormMessage>
-                      )}
-                    </div>
-                  </FormControl>
-                </FormItem>
-
-                {/* Bairro */}
-                <FormItem>
-                  <FormControl>
-                    <div className="w-200 flex flex-col">
-                      <Label htmlFor="bairro">Bairro</Label>
-                      <Input
-                        id="bairro"
-                        {...methods.register("bairro", { required: "Bairro é obrigatório" })}
-                      />
-                      {methods.formState.errors.bairro && (
-                        <FormMessage>{methods.formState.errors.bairro.message}</FormMessage>
-                      )}
-                    </div>
-                  </FormControl>
-                </FormItem>
-
-                {/* Cidade */}
-                <FormItem>
-                  <FormControl>
-                    <div className="w-200 flex flex-col">
-                      <Label htmlFor="cidade">Cidade</Label>
-                      <Input
-                        id="cidade"
-                        {...methods.register("cidade", { required: "Cidade é obrigatória" })}
-                      />
-                      {methods.formState.errors.cidade && (
-                        <FormMessage>{methods.formState.errors.cidade.message}</FormMessage>
-                      )}
-                    </div>
-                  </FormControl>
-                </FormItem>
-
-                {/* UF */}
-                <FormItem>
-                  <FormControl>
-                    <div className="w-35 flex flex-col">
-                      <Label htmlFor="uf">UF</Label>
-                      <select
-                        id="uf"
-                        {...methods.register("uf", { required: "UF é obrigatório" })}
-                        className="h-10 text-sm border rounded px-2 text-center"
-                        defaultValue=""
-                      >
-                        <option value="" disabled>Selecione a UF</option>
-                        <option value="AC">AC</option>
-                        <option value="AL">AL</option>
-                        <option value="AP">AP</option>
-                        <option value="AM">AM</option>
-                        <option value="BA">BA</option>
-                        <option value="CE">CE</option>
-                        <option value="DF">DF</option>
-                        <option value="ES">ES</option>
-                        <option value="GO">GO</option>
-                        <option value="MA">MA</option>
-                        <option value="MT">MT</option>
-                        <option value="MS">MS</option>
-                        <option value="MG">MG</option>
-                        <option value="PA">PA</option>
-                        <option value="PB">PB</option>
-                        <option value="PR">PR</option>
-                        <option value="PE">PE</option>
-                        <option value="PI">PI</option>
-                        <option value="RJ">RJ</option>
-                        <option value="RN">RN</option>
-                        <option value="RS">RS</option>
-                        <option value="RO">RO</option>
-                        <option value="RR">RR</option>
-                        <option value="SC">SC</option>
-                        <option value="SP">SP</option>
-                        <option value="SE">SE</option>
-                        <option value="TO">TO</option>
-                      </select>
-                      {methods.formState.errors.uf && (
-                        <FormMessage>{methods.formState.errors.uf.message}</FormMessage>
-                      )}
-                    </div>
-                  </FormControl>
-                </FormItem>
-
-                {/* ID do usuário (hidden) */}
-                <FormItem>
-                  <FormControl>
-                    <input
-                      type="hidden"
-                      {...methods.register("id")}
-                      value={LocalStorage.UserLogged?.id}
+              {/* Telefone alternativo */}
+              <FormItem>
+                <Label>Telefone Alternativo</Label>
+                <Controller
+                  name="telefoneAlternativo"
+                  control={methods.control}
+                  render={({ field }) => (
+                    <PhoneInput
+                      {...field}
+                      defaultCountry="BR"
+                      className="p-2 border rounded-md"
                     />
-                  </FormControl>
+                  )}
+                />
+              </FormItem>
+
+              {/* Grid responsivo de endereço */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+
+                <FormItem>
+                  <Label>Rua</Label>
+                  <Input
+                    {...methods.register("rua", { required: "Rua obrigatória" })}
+                  />
+                  <FormMessage>{methods.formState.errors.rua?.message}</FormMessage>
                 </FormItem>
 
-                {/* Botão de envio */}
-                <Button type="submit" className="w-full mt-4">
-                  Cadastrar Pousada
-                </Button>
-              </form>
-            </FormProvider>
-          </div>
+                <FormItem>
+                  <Label>Nº</Label>
+                  <Input
+                    type="number"
+                    {...methods.register("numResidencia", { required: "Número obrigatório" })}
+                  />
+                </FormItem>
+
+                <FormItem>
+                  <Label>Bairro</Label>
+                  <Input
+                    {...methods.register("bairro", { required: "Bairro obrigatório" })}
+                  />
+                  <FormMessage>{methods.formState.errors.bairro?.message}</FormMessage>
+                </FormItem>
+
+                <FormItem>
+                  <Label>Cidade</Label>
+                  <Input
+                    {...methods.register("cidade", { required: "Cidade obrigatória" })}
+                  />
+                  <FormMessage>{methods.formState.errors.cidade?.message}</FormMessage>
+                </FormItem>
+
+                <FormItem>
+                  <Label>UF</Label>
+                  <select
+                    {...methods.register("uf", { required: "UF obrigatória" })}
+                    className="border rounded-md h-10 px-2"
+                  >
+                    <option value="">Selecione</option>
+                    {[
+                      "AC","AL","AP","AM","BA","CE","DF","ES","GO","MA","MT",
+                      "MS","MG","PA","PB","PR","PE","PI","RJ","RN","RS",
+                      "RO","RR","SC","SP","SE","TO"
+                    ].map(uf => (
+                      <option key={uf} value={uf}>{uf}</option>
+                    ))}
+                  </select>
+                </FormItem>
+
+              </div>
+
+              {/* ID Hidden */}
+              <input type="hidden" {...methods.register("id")} value={LocalStorage.UserLogged?.id} />
+
+              <Button className="w-full mt-4" type="submit">
+                Cadastrar Pousada
+              </Button>
+
+            </form>
+          </FormProvider>
         </div>
       </div>
     </main>

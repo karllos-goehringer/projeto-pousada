@@ -7,7 +7,6 @@ import ComodoIconButton from "../comodo-list-componente/ComodoListComponente";
 interface Comodo {
   PK_comodoID: number;
   comodoNome: string;
-  
 }
 
 interface CardComodosProps {
@@ -28,12 +27,10 @@ const fetchComodos = async () => {
       const res = await fetch(`http://localhost:3000/comodo/comodos/get-comodos/${id}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
-
       if (!res.ok) {
         const text = await res.text();
         throw new Error(text || "Erro ao buscar cômodos");
       }
-
       const data: Comodo[] = await res.json();
       setComodos(data);
     } catch (err: any) {
@@ -72,7 +69,7 @@ const fetchComodos = async () => {
           comodos.map((comodo) => (
   <ComodoIconButton key={comodo.PK_comodoID} comodo={comodo} locked={isLocked} onCreated={fetchComodos}/>
 ))}
-        <DialogCadastroComodo disabled={isLocked} PFK_pousadaID={id}   onCreated={fetchComodos} />
+        <DialogCadastroComodo disabled={isLocked} PFK_pousadaID={id}    onCreated={fetchComodos} />
         {msg && <p className="text-center text-sm mt-2">{msg}</p>}
       </CardContent>
     </Card>

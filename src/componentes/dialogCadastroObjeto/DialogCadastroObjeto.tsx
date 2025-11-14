@@ -6,20 +6,21 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import CardCadastroComodo from "../cardCadastroComodo/Card-Cadastro-Comodo";
+import CardCadastroObjeto from "../cardCadastroObjeto/CardCadastroObjeto";
 
-interface DialogCadastroComodoProps {
+interface DialogCadastroObjetosProps {
   PFK_pousadaID: string | undefined;
+  nomeComodo?: string;
   disabled: boolean;
-  comodoNome?: string;
-  onCreated?: () => void; 
+  onCreated?: () => void; // callback para atualizar lista
 }
 
-export default function DialogCadastroComodo({
+export default function DialogCadastroObjeto({
   PFK_pousadaID,
+  nomeComodo,
   disabled = true,
   onCreated,
-}: DialogCadastroComodoProps) {
+}: DialogCadastroObjetosProps) {
   return (
     <Dialog>
       <DialogTrigger
@@ -28,13 +29,13 @@ export default function DialogCadastroComodo({
         }`}
         disabled={disabled}
       >
-        Cadastrar novo Cômodo
+        Cadastrar novo Objeto
       </DialogTrigger>
       <DialogContent className="bg-white">
         <DialogHeader>
-          <DialogTitle>Cadastrar novo Cômodo</DialogTitle>
+          <DialogTitle>Cadastrar novo objeto</DialogTitle>
           <DialogDescription>
-            <CardCadastroComodo id={PFK_pousadaID} onCreated={onCreated} />
+            <CardCadastroObjeto comodoID={PFK_pousadaID} nomeComodo={nomeComodo} onCreated={onCreated} />
           </DialogDescription>
         </DialogHeader>
       </DialogContent>

@@ -19,7 +19,6 @@ export function AppSidebar() {
 
   return (
     <div className="relative flex">
-      {/* Botão de minimizar/expandir (fica à esquerda da sidebar) */}
       
 
       <Sidebar

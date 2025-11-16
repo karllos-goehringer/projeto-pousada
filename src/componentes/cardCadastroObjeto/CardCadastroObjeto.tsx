@@ -16,9 +16,8 @@ export default function CardCadastroObjeto({ nomeComodo, comodoID, onCreated, on
   const [msg, setMsg] = useState("");
   const [preview, setPreview] = useState<string | null>(null);
 
-  const { register, handleSubmit, reset, watch } = useForm();
+  const { register, handleSubmit, reset } = useForm();
 
-  const imagemSelecionada = watch("objImagem");
   const handlePreview = (fileList: FileList | null) => {
     if (!fileList || fileList.length === 0) {
       setPreview(null);
@@ -111,7 +110,7 @@ export default function CardCadastroObjeto({ nomeComodo, comodoID, onCreated, on
             <img
               src={preview}
               alt="preview"
-              className="mt-2 rounded-lg border max-h-40 mx-auto"
+              className="mt-2 "
             />
           )}
         </div>

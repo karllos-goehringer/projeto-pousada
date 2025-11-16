@@ -12,6 +12,8 @@ import PaginaCadastroPousadas from './paginas/pagina-cadastro-pousada/Pagina-cad
 import PaginaPousada from './paginas/pagina-pousada/pagina-pousada'
 import PaginaComodo from './paginas/pagina-comodo/Pagina-comodo.tsx'
 function App() {
+
+
   return (
     <BrowserRouter>
       <SidebarProvider>

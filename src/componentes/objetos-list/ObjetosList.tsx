@@ -25,7 +25,7 @@ export default function ObjetosList({ PK_comodoID,nomeComodo }: ObjetosListProps
         const userId = userData?.id;
 
       const res = await fetch(
-        `http://localhost:3000/get/objeto/get-objetos-comodo/${PK_comodoID}`,
+        `http://localhost:3000/objeto/objeto/get-objetos-comodo/${PK_comodoID}`,
         {
           method: "GET",
           headers: {
@@ -39,6 +39,7 @@ export default function ObjetosList({ PK_comodoID,nomeComodo }: ObjetosListProps
         if (res.ok) {
           const data = await res.json();
           setObjetos(data);
+          console.log(data)
         } else {
           setMsg("Erro ao buscar objetos.");
         }
@@ -76,7 +77,7 @@ export default function ObjetosList({ PK_comodoID,nomeComodo }: ObjetosListProps
         {objetos.length > 0 ? (
           <ul className="space-y-1">
             {objetos.map((obj, i) => (
-            <ItemObjetoList key={i} objeto={obj} locked={isLocked}   onCreated={() => setReload(prev => prev + 1)}/>))}
+            <ItemObjetoList nomeComodo={nomeComodo}key={i} objeto={obj} locked={isLocked}   onCreated={() => setReload(prev => prev + 1)}/>))}
           </ul>
         ) : (
           !loading && <p>Nenhum objeto encontrado.</p>

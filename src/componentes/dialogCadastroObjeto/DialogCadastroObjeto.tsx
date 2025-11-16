@@ -8,7 +8,7 @@ import {
 } from "@/components/ui/dialog";
 import CardCadastroObjeto from "../cardCadastroObjeto/CardCadastroObjeto";
 
-interface DialogCadastroObjetosProps {
+export interface DialogCadastroObjetosProps {
   PFK_pousadaID: string | undefined;
   nomeComodo?: string;
   disabled: boolean;

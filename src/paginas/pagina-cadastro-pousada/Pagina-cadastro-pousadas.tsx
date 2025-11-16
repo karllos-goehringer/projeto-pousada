@@ -1,12 +1,11 @@
 import { Button } from "@/components/ui/button";
-import { FormControl, FormItem, FormMessage } from "@/components/ui/form";
+import {FormItem, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useForm, FormProvider, Controller } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import LocalStorage from "@/backend/LocalStorage";
 import AppSidebar from "@/componentes/Sidebar/AppSidebar";
-import estilo from "./cadastro-pousada.module.css";
 import PhoneInput from "react-phone-number-input";
 import "react-phone-number-input/style.css";
 

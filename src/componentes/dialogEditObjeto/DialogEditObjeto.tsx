@@ -14,7 +14,7 @@ export interface ObjetoEdit{
     objMarca: string;
     objUnidades: string;
     objLink: string | null;
-  objImagem?: string | ObjetoImagem | undefined;
+    objImagem?: string | ObjetoImagem | undefined;
 }
 interface DialogEditObjetoProps {
     nomeComodo?: string;
@@ -30,6 +30,7 @@ export default function DialogEditObjeto(
   onCreated,
   objeto   
 }:DialogEditObjetoProps ) {
+  console.log(objeto)
   return (
       <Dialog>
   <DialogTrigger

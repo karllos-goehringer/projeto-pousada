@@ -4,66 +4,95 @@ import { CardContent } from "@/components/ui/card";
 import { Label } from "@radix-ui/react-label";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { useAuth } from "@/backend/auth/AuthProvider";
 
 interface PropsObjeto {
-    comodoID: string | undefined;
-    nomeComodo: string | undefined;
+  comodoID: string | undefined;
+  nomeComodo: string | undefined;
   onCreated?: () => void;
   onClose?: () => void;
 }
 
-export default function CardCadastroObjeto({ nomeComodo, comodoID, onCreated, onClose }: PropsObjeto) {
+interface FormObjeto {
+  objNome: string;
+  objMarca?: string;
+  objUnidades: number;
+  objLink?: string;
+  objImagem?: FileList;
+}
+
+export default function CardCadastroObjeto({
+  nomeComodo,
+  comodoID,
+  onCreated,
+  onClose,
+}: PropsObjeto) {
   const [msg, setMsg] = useState("");
   const [preview, setPreview] = useState<string | null>(null);
 
-  const { register, handleSubmit, reset } = useForm();
+  const { register, handleSubmit, watch, reset } = useForm<FormObjeto>();
 
-  const handlePreview = (fileList: FileList | null) => {
-    if (!fileList || fileList.length === 0) {
+  // ✔ PEGAR AUTH AQUI NO TOPO (correto)
+  const { token } = useAuth();
+
+  const imagemSelecionada = watch("objImagem");
+
+  // Preview
+  const handlePreview = (files: FileList | null) => {
+    if (!files || files.length === 0) {
       setPreview(null);
       return;
     }
-    const url = URL.createObjectURL(fileList[0]);
+    const url = URL.createObjectURL(files[0]);
     setPreview(url);
   };
 
-  const onSubmit = async (data: any) => {
+  const onSubmit = async (data: FormObjeto) => {
+    setMsg("");
+
+    // ❌ TENTAR useAuth() AQUI ERA INVÁLIDO
+    if (!token) {
+      setMsg("❌ Usuário não autenticado.");
+      return;
+    }
+
     try {
-      const token = localStorage.getItem("authToken");
-      if (!token) {
-        setMsg("❌ Usuário não autenticado.");
-        return;
+      const formData = new FormData();
+
+      formData.append("PFK_comodoID", String(comodoID));
+      formData.append("objNome", data.objNome);
+      formData.append("objMarca", data.objMarca || "");
+      formData.append("objUnidades", String(data.objUnidades));
+      formData.append("objLink", data.objLink || "");
+
+      if (data.objImagem && data.objImagem.length > 0) {
+        formData.append("objImagem", data.objImagem[0]);
       }
-        const payload = {
-        PFK_comodoID: Number(comodoID),
-        objNome: data.objNome,
-        objMarca: data.objMarca,
-        objUnidades: Number(data.objUnidades),
-        objLink: data.objLink,
-        objImagem: preview || "",
-        };
 
       const res = await fetch("http://localhost:3000/objeto/objeto/create-objeto", {
         method: "POST",
         headers: {
-          "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify(payload),
+        body: formData,
       });
 
-      if (res.ok) {
-        setMsg("✅ Objeto cadastrado com sucesso!");
-        reset();
-        setPreview(null);
-
-        if (onCreated) onCreated();
-        if (onClose) onClose();
-      } else {
+      if (!res.ok) {
         const erro = await res.text();
         setMsg(`❌ Erro: ${erro || "Falha ao cadastrar objeto."}`);
+        return;
       }
-    } catch (err) {
+
+      setMsg("✅ Objeto cadastrado com sucesso!");
+
+      reset();
+      setPreview(null);
+
+      onCreated?.();
+      onClose?.();
+
+    } catch (error) {
+      console.error(error);
       setMsg("❌ Erro ao conectar ao servidor.");
     }
   };
@@ -71,36 +100,35 @@ export default function CardCadastroObjeto({ nomeComodo, comodoID, onCreated, on
   return (
     <CardContent>
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-3">
-                <div>
-          <Label htmlFor="comodoId">Cômodo Selecionado: *</Label>
-            <p className="p-2 border rounded bg-gray-100">{nomeComodo}</p>
-        </div>
+
         <div>
-          <Label htmlFor="objNome">Nome do objeto *</Label>
-          <Input id="objNome" {...register("objNome")} type="text" required />
+          <Label>Cômodo Selecionado *</Label>
+          <p className="p-2 border rounded bg-gray-100">{nomeComodo}</p>
         </div>
+
         <div>
-          <Label htmlFor="objMarca">Marca</Label>
-          <Input id="objMarca" {...register("objMarca")} type="text" />
+          <Label>Nome *</Label>
+          <Input {...register("objNome", { required: true })} />
         </div>
+
         <div>
-          <Label htmlFor="objLink">Link de compra</Label>
-          <Input id="objLink" {...register("objLink")} type="url" placeholder="https://" />
+          <Label>Marca</Label>
+          <Input {...register("objMarca")} />
         </div>
+
         <div>
-          <Label htmlFor="objUnidades">Número de unidades</Label>
+          <Label>Link</Label>
+          <Input {...register("objLink")} type="url" placeholder="https://" />
+        </div>
+
+        <div>
+          <Label>Unidades</Label>
+          <Input {...register("objUnidades")} type="number" defaultValue={1} min={1} />
+        </div>
+
+        <div>
+          <Label>Imagem</Label>
           <Input
-            id="objUnidades"
-            {...register("objUnidades")}
-            type="number"
-            min={1}
-            defaultValue={1}
-          />
-        </div>
-        <div>
-          <Label htmlFor="objImagem">Imagem</Label>
-          <Input
-            id="objImagem"
             type="file"
             accept="image/*"
             {...register("objImagem")}
@@ -110,16 +138,24 @@ export default function CardCadastroObjeto({ nomeComodo, comodoID, onCreated, on
             <img
               src={preview}
               alt="preview"
-              className="mt-2 "
+              className="mt-2 rounded shadow max-h-40 mx-auto"
             />
           )}
         </div>
-        <div className="pt-3">
-          <Button className="w-full" type="submit">
-            Salvar
-          </Button>
-        </div>
-        {msg && <p className="text-center text-sm mt-2">{msg}</p>}
+
+        <Button className="w-full" type="submit">
+          Salvar
+        </Button>
+
+        {msg && (
+          <p
+            className={`text-center text-sm ${
+              msg.includes("❌") ? "text-red-600" : "text-green-600"
+            }`}
+          >
+            {msg}
+          </p>
+        )}
       </form>
     </CardContent>
   );

@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import {FormItem, FormMessage } from "@/components/ui/form";
+import { FormItem, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useForm, FormProvider, Controller } from "react-hook-form";
@@ -8,7 +8,7 @@ import LocalStorage from "@/backend/LocalStorage";
 import AppSidebar from "@/componentes/Sidebar/AppSidebar";
 import PhoneInput from "react-phone-number-input";
 import "react-phone-number-input/style.css";
-
+import { useAuth } from "@/backend/auth/AuthProvider";
 type PousadaFormValues = {
   nomePousada: string;
   email: string;
@@ -38,11 +38,13 @@ function parseTelefone(telefone: string) {
 export default function PaginaCadastroPousadas() {
   const methods = useForm<PousadaFormValues>();
   const navigate = useNavigate();
-
+  const { user, token } = useAuth();
+  const data_token = token;
+  console.log(user?.id)
+  const userId = user?.id
   const onSubmit = async (data: PousadaFormValues) => {
     try {
-      const token = localStorage.getItem("authToken");
-      const userId = LocalStorage.UserLogged?.id;
+
 
       if (!token || !userId) return;
 
@@ -63,14 +65,14 @@ export default function PaginaCadastroPousadas() {
         rua: data.rua,
         numResidencia: data.numResidencia,
         uf: data.uf,
-        id: data.id,
+        id: userId,   // ← Agora correto!
       };
 
-      const res = await fetch(`http://localhost:3000/pousada/register/`, {
+      const res = await fetch(`http://localhost:3000/pousada/register`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${data_token}`,
         },
         body: JSON.stringify(payload),
       });
@@ -202,9 +204,9 @@ export default function PaginaCadastroPousadas() {
                   >
                     <option value="">Selecione</option>
                     {[
-                      "AC","AL","AP","AM","BA","CE","DF","ES","GO","MA","MT",
-                      "MS","MG","PA","PB","PR","PE","PI","RJ","RN","RS",
-                      "RO","RR","SC","SP","SE","TO"
+                      "AC", "AL", "AP", "AM", "BA", "CE", "DF", "ES", "GO", "MA", "MT",
+                      "MS", "MG", "PA", "PB", "PR", "PE", "PI", "RJ", "RN", "RS",
+                      "RO", "RR", "SC", "SP", "SE", "TO"
                     ].map(uf => (
                       <option key={uf} value={uf}>{uf}</option>
                     ))}

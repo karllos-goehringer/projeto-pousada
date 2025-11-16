@@ -11,29 +11,31 @@ import PousadasGeral from './paginas/pagina-pousadas-geral/pousadas-geral'
 import PaginaCadastroPousadas from './paginas/pagina-cadastro-pousada/Pagina-cadastro-pousadas'
 import PaginaPousada from './paginas/pagina-pousada/pagina-pousada'
 import PaginaComodo from './paginas/pagina-comodo/Pagina-comodo.tsx'
+import AuthProvider from './backend/auth/AuthProvider.tsx'
 function App() {
 
 
   return (
     <BrowserRouter>
-      <SidebarProvider>
-      <Routes>
-        <Route path='/' element={<Homepage />} />
-        <Route path='/index' element={<Homepage />} />
-        <Route path='/login' element={<LoginPage />} />
-        <Route path='/pagina-item/:id' element={<PaginaCadastroObjetos />} />
-        <Route path='/register' element={<PaginaCadastroUser />} />
-        <Route path='/logout' element={<PaginaLogout />} />
-        <Route path="*" element={<Homepage />} />
-        <Route element={<PrivateRoute />}>
-          <Route path ="/pousadas-user" element={<PousadasGeral />} />
-          <Route path='/form-pousada/' element={<PaginaCadastroPousadas />} />
-          <Route path='/pousada/single-page/:id' element={<PaginaPousada/>} />
-          <Route path='/pousada/comodo/:id' element={<PaginaComodo/>} />
-
-        </Route>
-      </Routes>
-      </SidebarProvider>
+      <AuthProvider>
+        <SidebarProvider>
+          <Routes>
+            <Route path='/' element={<Homepage />} />
+            <Route path='/index' element={<Homepage />} />
+            <Route path='/login' element={<LoginPage />} />
+            <Route path='/pagina-item/:id' element={<PaginaCadastroObjetos />} />
+            <Route path='/register' element={<PaginaCadastroUser />} />
+            <Route path='/logout' element={<PaginaLogout />} />
+            <Route path="*" element={<Homepage />} />
+            <Route element={<PrivateRoute />}>
+              <Route path ="/pousadas-user" element={<PousadasGeral />} />
+              <Route path='/form-pousada/' element={<PaginaCadastroPousadas />} />
+              <Route path='/pousada/single-page/:id' element={<PaginaPousada/>} />
+              <Route path='/pousada/comodo/:id' element={<PaginaComodo/>} />
+            </Route>
+          </Routes>
+        </SidebarProvider>
+      </AuthProvider>
     </BrowserRouter>
   )
 }

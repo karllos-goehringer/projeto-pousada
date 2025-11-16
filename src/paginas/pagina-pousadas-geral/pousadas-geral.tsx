@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import LocalStorage from "@/backend/LocalStorage";
 import { useEffect, useState } from "react";
+import { useAuth } from "@/backend/auth/AuthProvider";
 import estilo from "./pousadas-geral.module.css";
 import AppSidebar from "@/componentes/Sidebar/AppSidebar";
 import CardPousada from "@/componentes/cardPousada/cardPousada";
@@ -14,12 +15,35 @@ export default function PousadasGeral() {
   const [dados, setDados] = useState<Pousada[] | null>(null);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    const buscarPousadas = async () => {
-      const token = localStorage.getItem("authToken");
-      const userId = LocalStorage.UserLogged?.id;
+  const { loading: authLoading, token: authToken, user } = useAuth();
 
-      if (!token || !userId) return;
+  useEffect(() => {
+    // wait until auth state is resolved
+    if (authLoading) return;
+
+    const buscarPousadas = async () => {
+      const token = authToken || localStorage.getItem("authToken");
+      let userId = user?.id ?? LocalStorage.UserLogged?.id;
+
+      // If we don't have the user object, try to decode the JWT to get the user id
+      if (!userId && token) {
+        try {
+          const payloadBase64 = token.split(".")[1];
+          const payloadJson = atob(payloadBase64.replace(/-/g, "+").replace(/_/g, "/"));
+          const payload = JSON.parse(decodeURIComponent(escape(payloadJson)));
+          userId = payload.id ?? payload.userId ?? payload.PK_pousadaID ?? undefined;
+          console.log('[PousadasGeral] decoded userId from token:', userId);
+        } catch (e) {
+          console.warn('[PousadasGeral] failed to decode token payload', e);
+        }
+      }
+
+      if (!token || !userId) {
+        console.warn('[PousadasGeral] no token or userId, aborting fetch', { token, userId });
+        setDados([]);
+        setLoading(false);
+        return;
+      }
 
       try {
         const res = await fetch(
@@ -31,11 +55,14 @@ export default function PousadasGeral() {
           }
         );
 
-        if (!res.ok)
+        if (!res.ok) {
+          console.error('[PousadasGeral] fetch returned not ok', res.status);
           throw new Error(res.status ? `Erro: ${res.status}` : "Erro desconhecido");
+        }
 
         const dadosApi = await res.json();
-        setDados(dadosApi);
+        console.log('[PousadasGeral] fetched dadosApi:', dadosApi);
+        setDados(dadosApi || []);
       } catch (err) {
         console.error(err);
         setDados([]);
@@ -45,7 +72,7 @@ export default function PousadasGeral() {
     };
 
     buscarPousadas();
-  }, []);
+  }, [authLoading, authToken, user]);
 
   if (loading)
     return (

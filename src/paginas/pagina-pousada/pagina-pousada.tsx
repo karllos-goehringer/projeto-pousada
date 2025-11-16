@@ -29,7 +29,7 @@ export default function PaginaPousada() {
       `http://localhost:3000/pousada/get-pousada-details/${pousadaID}`,
       { headers: { Authorization: `Bearer ${token}` } }
     );
-    console.log('passando');
+
     if (!res.ok) throw new Error(res.status ? `Erro: ${res.status}` : "Erro desconhecido");
 
     const dadosApi = await res.json();

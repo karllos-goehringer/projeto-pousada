@@ -39,7 +39,6 @@ export default function ObjetosList({ PK_comodoID,nomeComodo }: ObjetosListProps
         if (res.ok) {
           const data = await res.json();
           setObjetos(data);
-          console.log(data)
         } else {
           setMsg("Erro ao buscar objetos.");
         }

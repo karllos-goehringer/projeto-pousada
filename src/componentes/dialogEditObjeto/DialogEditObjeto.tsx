@@ -30,7 +30,6 @@ export default function DialogEditObjeto(
   onCreated,
   objeto   
 }:DialogEditObjetoProps ) {
-  console.log(objeto)
   return (
       <Dialog>
   <DialogTrigger

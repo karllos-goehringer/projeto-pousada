@@ -39,6 +39,7 @@ export default function AuthProvider({ children }: { children: React.ReactNode }
     const [auth, setAuth] = useState(false);
     const [token, setToken] = useState<string | null>(localStorage.getItem("token"));
     const [loading, setLoading] = useState(true);
+ 
     useEffect(() => {
         let mounted = true;
         async function verifySession() {
@@ -61,7 +62,6 @@ export default function AuthProvider({ children }: { children: React.ReactNode }
                 const data = await res.json();
                 const headerToken = res.headers.get("X-New-Token");
                 const novo = data.token || headerToken;
-
                 if (data.valid && mounted) {
                     if (novo) {
                         localStorage.setItem("token", novo);
@@ -98,7 +98,6 @@ export default function AuthProvider({ children }: { children: React.ReactNode }
                 body: JSON.stringify({ email, senha: password }),
             });
             const data = await res.json();
-            console.log(data)
             if (!res.ok) {
                 return false;
             }

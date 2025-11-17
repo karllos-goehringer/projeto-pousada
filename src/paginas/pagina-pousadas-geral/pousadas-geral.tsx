@@ -32,7 +32,6 @@ export default function PousadasGeral() {
           const payloadJson = atob(payloadBase64.replace(/-/g, "+").replace(/_/g, "/"));
           const payload = JSON.parse(decodeURIComponent(escape(payloadJson)));
           userId = payload.id ?? payload.userId ?? payload.PK_pousadaID ?? undefined;
-          console.log('[PousadasGeral] decoded userId from token:', userId);
         } catch (e) {
           console.warn('[PousadasGeral] failed to decode token payload', e);
         }
@@ -61,7 +60,6 @@ export default function PousadasGeral() {
         }
 
         const dadosApi = await res.json();
-        console.log('[PousadasGeral] fetched dadosApi:', dadosApi);
         setDados(dadosApi || []);
       } catch (err) {
         console.error(err);

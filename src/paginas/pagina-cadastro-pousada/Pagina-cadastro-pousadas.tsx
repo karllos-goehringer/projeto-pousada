@@ -40,7 +40,6 @@ export default function PaginaCadastroPousadas() {
   const navigate = useNavigate();
   const { user, token } = useAuth();
   const data_token = token;
-  console.log(user?.id)
   const userId = user?.id
   const onSubmit = async (data: PousadaFormValues) => {
     try {

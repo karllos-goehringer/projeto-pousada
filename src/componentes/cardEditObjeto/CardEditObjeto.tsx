@@ -45,7 +45,6 @@ export default function CardEditObjeto({ nomeComodo, onCreated, onClose, Objeto 
   });
 
   const imagemSelecionada = watch("objImagem");
-  console.log(Objeto.PK_objID)
   useEffect(() => {
     if (!Objeto.objImagem) {
       setPreview(null);

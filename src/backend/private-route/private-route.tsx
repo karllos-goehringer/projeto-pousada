@@ -3,9 +3,8 @@ import { useEffect, useState } from "react";
 import { useAuth } from "../auth/AuthProvider";
 
 export default function PrivateRoute() {
-  const { token, user, auth, loading, setUser, setAuth, setToken } = useAuth(); // pegar do contexto
+  const { token, auth, loading, setUser, setAuth, setToken } = useAuth(); // pegar do contexto
   const [checking, setChecking] = useState(true);
-
   useEffect(() => {
     const verifyToken = async () => {
       if (!token) {
@@ -20,7 +19,6 @@ export default function PrivateRoute() {
         const data = await res.json();
         const headerToken = res.headers.get("X-New-Token");
         const newToken = data.token || headerToken;
-
         if (data.valid) {
           if (newToken) {
             setToken(newToken); // atualiza token no contexto

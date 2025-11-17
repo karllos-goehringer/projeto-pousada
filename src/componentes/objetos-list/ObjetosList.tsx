@@ -22,7 +22,6 @@ export default function ObjetosList({ PK_comodoID,nomeComodo }: ObjetosListProps
       try {
         const token = localStorage.getItem("authToken");
         const userData = JSON.parse(localStorage.getItem("UserLogged") || "{}");
-        const userId = userData?.id;
 
       const res = await fetch(
         `http://localhost:3000/objeto/objeto/get-objetos-comodo/${PK_comodoID}`,

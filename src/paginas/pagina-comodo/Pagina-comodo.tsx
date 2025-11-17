@@ -4,7 +4,9 @@ import estilo from './Pagina-comodo-css.module.css';
 import { useEffect, useState } from "react";
 import ViewComodo from "@/componentes/view-comodo/view-comodo";
 import ObjetosList from "@/componentes/objetos-list/ObjetosList";
-import { Card, CardContent } from "@/components/ui/card";
+import { Card, CardContent, CardTitle } from "@/components/ui/card";
+import ListVerificacaoObjetos from "@/componentes/listVerificacaoObjetos/ListVerificacaoObjetos";
+import ListVerificacoesFeitas from "@/componentes/listVerificacoesFeitas/ListVerificacoesFeitas";
 
 interface Comodo {
   PFK_pousadaID: string | undefined;
@@ -59,78 +61,75 @@ export default function PaginaComodo() {
   }, [comodoID]);
 
   return (
-  <main className={estilo.bodyHome}>
-    <AppSidebar />
-
-    {/* CONTAINER RESPONSIVO PRINCIPAL */}
-    <div className="md:ml-64 p-4 flex min-h-screen w-full justify-center">
-      <div className="w-full max-w-7xl">
-
-        {/* BANNER RESPONSIVO DO COMODO */}
-        <div className="relative w-full h-[clamp(180px,35vw,420px)] rounded-xl overflow-hidden ">
-          <img
-            src="/fundo2.jpg"
-            alt="Foto do cômodo"
-            className="w-full h-full object-cover object-center"
-          />
-
-          {/* Linha preta inferior */}
-          <div className="absolute bottom-0 left-0 w-full h-[10px] bg-black opacity-70"></div>
-
-          {/* Nome do cômodo */}
-          {!loading && dadosObjetos && (
-            <div className="absolute inset-0 flex items-center justify-center bg-black/40">
-              <p className="text-white text-2xl sm:text-3xl md:text-4xl font-semibold text-center px-4">
-                {dadosObjetos.comodoNome}
-              </p>
-            </div>
-          )}
-
-          {loading && (
-            <div className="absolute inset-0 flex items-center justify-center bg-black/40">
-              <p className="text-gray-200 text-lg sm:text-xl">Carregando...</p>
-            </div>
-          )}
-        </div>
-
-        {/* CARD ÚNICO */}
-        <Card className="mt-10 shadow-xl border-0 w-full">
-          <CardContent className="p-4 sm:p-6 md:p-10 flex flex-col gap-10">
-
-            {/* View do Comodo */}
-            <div className="w-full">
-              {loading ? (
-                <p className="text-center">Carregando detalhes...</p>
-              ) : erro ? (
-                <p className="text-center text-red-600">{erro}</p>
-              ) : dadosObjetos ? (
-                <ViewComodo
-                  PFK_pousadaID={dadosObjetos.PFK_pousadaID}
-                  PK_comodoID={dadosObjetos.PK_comodoID}
-                  capacidadePessoas={dadosObjetos.capacidadePessoas}
-                  comodoNome={dadosObjetos.comodoNome}
-                  comodoStatus={dadosObjetos.comodoStatus}
-                  comodoTipo={dadosObjetos.comodoTipo}
-                  descComodo={dadosObjetos.descComodo}
+    <main className={estilo.bodyHome}>
+      <AppSidebar />
+      <div className="md:ml-64 p-4 flex min-h-screen w-full justify-center">
+        <div className="w-full max-w-7xl">
+          <div className="relative w-full h-[clamp(180px,35vw,420px)] rounded-xl overflow-hidden ">
+            <img
+              src="/fundo2.jpg"
+              alt="Foto do cômodo"
+              className="w-full h-full object-cover object-center"
+            />
+            <div className="absolute bottom-0 left-0 w-full h-[10px] bg-black opacity-70"></div>
+            {!loading && dadosObjetos && (
+              <div className="absolute inset-0 flex items-center justify-center bg-black/40">
+                <p className="text-white text-2xl sm:text-3xl md:text-4xl font-semibold text-center px-4">
+                  {dadosObjetos.comodoNome}
+                </p>
+              </div>
+            )}
+            {loading && (
+              <div className="absolute inset-0 flex items-center justify-center bg-black/40">
+                <p className="text-gray-200 text-lg sm:text-xl">Carregando...</p>
+              </div>
+            )}
+          </div>
+          <Card className="mt-10 shadow-xl border-0 w-full">
+            <CardContent className="p-4 sm:p-6 md:p-10 flex flex-col gap-10">
+              <div className="w-full">
+                {loading ? (
+                  <p className="text-center">Carregando detalhes...</p>
+                ) : erro ? (
+                  <p className="text-center text-red-600">{erro}</p>
+                ) : dadosObjetos ? (
+                  <ViewComodo
+                    PFK_pousadaID={dadosObjetos.PFK_pousadaID}
+                    PK_comodoID={dadosObjetos.PK_comodoID}
+                    capacidadePessoas={dadosObjetos.capacidadePessoas}
+                    comodoNome={dadosObjetos.comodoNome}
+                    comodoStatus={dadosObjetos.comodoStatus}
+                    comodoTipo={dadosObjetos.comodoTipo}
+                    descComodo={dadosObjetos.descComodo}
+                  />
+                ) : (
+                  <p className="text-center">Cômodo não encontrado</p>
+                )}
+              </div>
+              <div className="w-full">
+                <ObjetosList
+                  PK_comodoID={dadosObjetos?.PK_comodoID}
+                  nomeComodo={dadosObjetos?.comodoNome}
                 />
-              ) : (
-                <p className="text-center">Cômodo não encontrado</p>
-              )}
-            </div>
-
-            {/* Lista de Objetos */}
-            <div className="w-full">
-              <ObjetosList
-                PK_comodoID={dadosObjetos?.PK_comodoID}
-                nomeComodo={dadosObjetos?.comodoNome}
-              />
-            </div>
-          </CardContent>
-        </Card>
-
+              </div>
+            </CardContent>
+            <Card>
+            <CardContent>
+              {dadosObjetos?.PK_comodoID ? (
+                <ListVerificacaoObjetos PK_comodoID={dadosObjetos?.PK_comodoID} />
+              ) : null}
+            </CardContent>
+          </Card>
+          <Card>
+            <CardContent>
+              <ListVerificacoesFeitas PK_comodoID={dadosObjetos?.PK_comodoID} />
+            </CardContent>
+          </Card>
+          </Card>
+          
+        </div>
       </div>
-    </div>
-  </main>
-);
+    </main>
+  );
 
 }

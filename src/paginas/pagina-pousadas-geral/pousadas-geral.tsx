@@ -5,6 +5,7 @@ import { useAuth } from "@/backend/auth/AuthProvider";
 import estilo from "./pousadas-geral.module.css";
 import AppSidebar from "@/componentes/Sidebar/AppSidebar";
 import CardPousada from "@/componentes/cardPousada/cardPousada";
+import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 
 export default function PousadasGeral() {
   interface Pousada {
@@ -120,8 +121,10 @@ export default function PousadasGeral() {
     );
 
   return (
-    <main className="min-h-screen flex ">
-      <AppSidebar />
+    <SidebarProvider>
+    <main className="flex flex-row justify-center w-11/12">
+      <AppSidebar/>
+        <div className="fixed top-4 left-4 z-50"><SidebarTrigger/></div>
 
       <div className="ml-0 md:ml-64 w-full p-6 flex justify-center">
         <div
@@ -131,5 +134,6 @@ export default function PousadasGeral() {
         </div>
       </div>
     </main>
+    </SidebarProvider>
   );
 }

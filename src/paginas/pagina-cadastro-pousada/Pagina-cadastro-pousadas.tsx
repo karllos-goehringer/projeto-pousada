@@ -9,6 +9,7 @@ import AppSidebar from "@/componentes/Sidebar/AppSidebar";
 import PhoneInput from "react-phone-number-input";
 import "react-phone-number-input/style.css";
 import { useAuth } from "@/backend/auth/AuthProvider";
+import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 type PousadaFormValues = {
   nomePousada: string;
   email: string;
@@ -87,9 +88,10 @@ export default function PaginaCadastroPousadas() {
   };
 
   return (
-    <main className="min-h-screen flex bg-gray-50">
-      <AppSidebar />
-
+    <SidebarProvider>
+    <main className="flex flex-row justify-center w-11/12">
+             <AppSidebar/>
+            <div className="fixed top-4 left-4 z-50"><SidebarTrigger/></div>
       <div className="ml-0 md:ml-64 w-full p-4 flex justify-center">
         <div className="w-full max-w-xl bg-white rounded-xl shadow-md p-6">
           <h1 className="text-2xl font-bold text-center mb-6">
@@ -226,5 +228,6 @@ export default function PaginaCadastroPousadas() {
         </div>
       </div>
     </main>
+    </SidebarProvider>
   );
 }

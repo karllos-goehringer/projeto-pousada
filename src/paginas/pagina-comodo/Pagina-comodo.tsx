@@ -1,12 +1,12 @@
 import AppSidebar from "@/componentes/Sidebar/AppSidebar";
 import { useParams } from "react-router-dom";
-import estilo from './Pagina-comodo-css.module.css';
 import { useEffect, useState } from "react";
 import ViewComodo from "@/componentes/view-comodo/view-comodo";
 import ObjetosList from "@/componentes/objetos-list/ObjetosList";
 import { Card, CardContent } from "@/components/ui/card";
 import ListVerificacaoObjetos from "@/componentes/listVerificacaoObjetos/ListVerificacaoObjetos";
 import ListVerificacoesFeitas from "@/componentes/listVerificacoesFeitas/ListVerificacoesFeitas";
+import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 
 interface Comodo {
   PFK_pousadaID: string | undefined;
@@ -61,16 +61,21 @@ export default function PaginaComodo() {
   }, [comodoID]);
 
   return (
-    <main className={estilo.bodyHome}>
-      <AppSidebar />
+    <SidebarProvider>
+    <main className="flex flex-row justify-center w-11/12">
+      <AppSidebar/>
+        <div className="fixed top-4 left-4 z-50"><SidebarTrigger/></div>
       <div className="md:ml-64 p-4 flex min-h-screen w-full justify-center">
         <div className="w-full max-w-7xl">
           <div className="relative w-full h-[clamp(180px,35vw,420px)] rounded-xl overflow-hidden ">
+                            
+
             <img
               src="/fundo2.jpg"
               alt="Foto do cômodo"
               className="w-full h-full object-cover object-center"
             />
+            
             <div className="absolute bottom-0 left-0 w-full h-[10px] bg-black opacity-70"></div>
             {!loading && dadosObjetos && (
               <div className="absolute inset-0 flex items-center justify-center bg-black/40">
@@ -114,21 +119,22 @@ export default function PaginaComodo() {
               </div>
             </CardContent>
             <Card>
-            <CardContent>
-              {dadosObjetos?.PK_comodoID ? (
-                <ListVerificacaoObjetos PK_comodoID={dadosObjetos?.PK_comodoID} />
-              ) : null}
-            </CardContent>
-          </Card>
-          <Card>
-            <CardContent>
-              <ListVerificacoesFeitas PK_comodoID={dadosObjetos?.PK_comodoID} />
-            </CardContent>
-          </Card>
+              <CardContent>
+                {dadosObjetos?.PK_comodoID ? (
+                  <ListVerificacaoObjetos PK_comodoID={dadosObjetos?.PK_comodoID} />
+                ) : null}
+              </CardContent>
+            </Card>
+            <Card>
+              <CardContent>
+                <ListVerificacoesFeitas PK_comodoID={dadosObjetos?.PK_comodoID} />
+              </CardContent>
+            </Card>
           </Card>
         </div>
       </div>
     </main>
+    </SidebarProvider>
   );
 
 }

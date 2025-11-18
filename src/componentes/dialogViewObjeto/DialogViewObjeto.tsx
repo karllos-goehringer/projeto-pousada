@@ -29,8 +29,7 @@ interface DialogEditObjetoProps {
 
 export default function DialogViewObjeto({
   nomeComodo,
-  disabled = true,
-  onCreated,
+
   objeto,
   onClose,
 }: DialogEditObjetoProps) {
@@ -64,7 +63,7 @@ export default function DialogViewObjeto({
 
         <div className="mt-4">
 
-          <CardViewObjeto  nomeComodo={nomeComodo}     Objeto={objeto}/>
+          <CardViewObjeto  nomeComodo={nomeComodo} Objeto={objeto} onClose={()=>{}}/>
         </div>
       </DialogContent>
     </Dialog>

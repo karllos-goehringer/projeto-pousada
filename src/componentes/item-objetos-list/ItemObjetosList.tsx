@@ -4,8 +4,7 @@ import { Trash2Icon } from "lucide-react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { useState } from "react";
 import DialogEditObjeto, { type ObjetoEdit } from "../dialogEditObjeto/DialogEditObjeto";
-
-
+import DialogViewObjeto from "../dialogViewObjeto/DialogViewObjeto"; // <-- importe aqui
 
 interface ObjetoIconButtonProps {
   nomeComodo: string | undefined;
@@ -14,11 +13,12 @@ interface ObjetoIconButtonProps {
   onCreated?: () => void;
 }
 
-export default function ItemObjetoList({nomeComodo, objeto, locked, onCreated }: ObjetoIconButtonProps) { 
+export default function ItemObjetoList({ nomeComodo, objeto, locked, onCreated }: ObjetoIconButtonProps) { 
   const [openDialog, setOpenDialog] = useState(false);
+
   async function handleDelete() {
     const confirmDelete = window.confirm(
-      `Deseja realmente excluir o cômodo "${objeto.objNome}"?`
+      `Deseja realmente excluir o objeto "${objeto.objNome}"?`
     );
     if (!confirmDelete) return;
 
@@ -68,23 +68,33 @@ export default function ItemObjetoList({nomeComodo, objeto, locked, onCreated }:
         </Button>
       </div>
 
-<Dialog open={openDialog} onOpenChange={setOpenDialog}>
-  <DialogContent className="bg-white">
-    <DialogHeader>
-      <DialogTitle>Editar objeto</DialogTitle>
-    </DialogHeader>
-
-    <DialogEditObjeto 
-      nomeComodo={nomeComodo}
-      disabled={locked}
-      objeto={objeto}
-      onCreated={() => {
-        setOpenDialog(false);
-        onCreated?.();
-      }}
-    />
-  </DialogContent>
-</Dialog>
+      <Dialog open={openDialog} onOpenChange={setOpenDialog}>
+        <DialogContent className="bg-white">
+          <DialogHeader>
+            <DialogTitle>
+              {locked ? "Visualizar objeto" : "Editar objeto"}
+            </DialogTitle>
+          </DialogHeader>
+          {locked ? (
+            <DialogViewObjeto 
+              disabled={false}
+              nomeComodo={nomeComodo}
+              objeto={objeto}
+              onClose={() => {}}
+            />
+          ) : (
+            <DialogEditObjeto
+              nomeComodo={nomeComodo}
+              disabled={false}
+              objeto={objeto}
+              onCreated={() => {
+                setOpenDialog(false);
+                onCreated?.();
+              }}
+            />
+          )}
+        </DialogContent>
+      </Dialog>
     </>
   );
 }

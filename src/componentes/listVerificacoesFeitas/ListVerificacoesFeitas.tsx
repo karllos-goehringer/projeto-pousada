@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react"
 import TabelaVerificacoes from "../tabelaVerificacao/TabelaVerificacao";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Switch } from "@/components/ui/switch";
-import { SwitchThumb } from "@radix-ui/react-switch";
+
 
 type Props = {
     PK_comodoID: string | undefined;
@@ -27,14 +26,6 @@ export default function ListVerificacoesFeitas({ PK_comodoID }: Props) {
         };
         fetchData();
     }, [PK_comodoID]);
-
-    function verDetalhes(id: number) {
-        console.log("Abrir detalhes da verificação:", id);
-        // navegar para página:
-        // navigate(`/comodo/${PK_comodoID}/verificacao/${id}`)
-    }
-
-
     return (
             <Card>
             <CardHeader>
@@ -45,7 +36,6 @@ export default function ListVerificacoesFeitas({ PK_comodoID }: Props) {
             <CardContent>
                 <TabelaVerificacoes
                 verificacoes={verificacoes}
-                onVerDetalhes={verDetalhes}
                 />
             </CardContent>
             </Card>

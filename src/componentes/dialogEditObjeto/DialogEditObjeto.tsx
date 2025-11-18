@@ -21,6 +21,7 @@ interface DialogEditObjetoProps {
     disabled: boolean;
     onCreated?: () => void; // callback para atualizar lista
     objeto: ObjetoEdit;
+    
 }
 
 export default function DialogEditObjeto( 

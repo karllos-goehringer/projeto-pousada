@@ -15,9 +15,10 @@ interface ObjetoComImagem extends ObjetoEdit {
 interface PropsObjeto {
   nomeComodo: string | undefined;
   Objeto: ObjetoComImagem;
+  onClose:() => void
 }
 
-export default function CardViewObjeto({ nomeComodo, Objeto }: PropsObjeto) {
+export default function CardViewObjeto({ nomeComodo, Objeto, onClose }: PropsObjeto) {
   const [preview, setPreview] = useState<string | null>(null);
 
   useEffect(() => {

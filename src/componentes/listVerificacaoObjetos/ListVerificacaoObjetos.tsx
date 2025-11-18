@@ -25,6 +25,7 @@ export default function ListVerificacaoObjetos({ PK_comodoID }: Props) {
     const [objetos, setObjetos] = useState<any[]>([]);
     const [objetoSelecionado, setObjetoSelecionado] = useState<any | null>(null);
     const [estadoObjetos, setEstadoObjetos] = useState<EstadoObjeto[]>([]);
+
     useEffect(() => {
         const fetchObjetos = async () => {
             if (!PK_comodoID) return;
@@ -79,174 +80,178 @@ export default function ListVerificacaoObjetos({ PK_comodoID }: Props) {
         );
     }
 
-async function finalizarVerificacao() {
-    const presentes = estadoObjetos
-        .filter((o) => o.presente === true).map((o) => ({
-            ...objetos.find((x) => x.PK_objID === o.id),  
-            quantidade: o.quantidade,
-        }));
-       for (const item of presentes) {
+    async function finalizarVerificacao() {
+        const presentes = estadoObjetos
+            .filter((o) => o.presente === true)
+            .map((o) => ({
+                ...objetos.find((x) => x.PK_objID === o.id),
+                quantidade: o.quantidade,
+            }));
+
+        for (const item of presentes) {
             if (item.quantidade <= 0) {
                 alert("A quantidade de um item marcado como presente deve ser maior que 0.");
                 return;
-    }
-}
-    const faltantes = estadoObjetos
-        .filter((o) => o.presente === false)
-        .map((o) => ({
-            ...objetos.find((x) => x.PK_objID === o.id),
-            quantidade: 0,
-        }));
-
-    if (presentes.length === 0 && faltantes.length === 0) {
-        alert("Você precisa marcar pelo menos um objeto como presente ou faltante.");
-        return;
-    }
-
-    const body = {
-        comodID: PK_comodoID,
-        objetosComodo: objetos,
-        objetosPresentes: presentes,
-        objetosFaltantes: faltantes,
-    };
-
-    try {
-        const token = localStorage.getItem("authToken");
-
-        const res = await fetch(
-            `http://localhost:3000/comodo/verificacao/${PK_comodoID}`,
-            {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    Authorization: `Bearer ${token}`,
-                },
-                body: JSON.stringify(body),
             }
-        );
+        }
 
-        const data = await res.json();
-        alert('Sucesso!');
-    } catch (erro) {
-        console.log(erro);
-        alert("Erro ao salvar verificação.");
-    }
-}
-return (
-    <Card className="w-full">
-        <CardHeader>
-            <CardTitle className="text-xl font-semibold">
-                Nova Verificação de Objetos
-            </CardTitle>
-            
-                <div className="flex items-center gap-2">
-                <span className="text-sm text-gray-500">Iniciar Verificação - </span>
+        const faltantes = estadoObjetos
+            .filter((o) => o.presente === false)
+            .map((o) => ({
+                ...objetos.find((x) => x.PK_objID === o.id),
+                quantidade: 0,
+            }));
 
-                <Switch
-                    className="bg-gray-600 data-[state=checked]:bg-white"
-                    checked={!isLocked}
-                    onCheckedChange={() => setIsLocked(!isLocked)}
-                >
-                    <SwitchThumb className="bg-white data-[state=checked]:bg-black" />
-                </Switch>
-                </div>
-        </CardHeader>
-        {objetoSelecionado && (
-            <DialogViewObjeto
-                disabled={false}
-                objeto={objetoSelecionado}
-                nomeComodo="Visualizar objeto"
-                onClose={() => setObjetoSelecionado(null)
+        if (presentes.length === 0 && faltantes.length === 0) {
+            alert("Você precisa marcar pelo menos um objeto como presente ou faltante.");
+            return;
+        }
 
+        const body = {
+            comodID: PK_comodoID,
+            objetosComodo: objetos,
+            objetosPresentes: presentes,
+            objetosFaltantes: faltantes,
+        };
+
+        try {
+            const token = localStorage.getItem("authToken");
+
+            const res = await fetch(
+                `http://localhost:3000/comodo/verificacao/${PK_comodoID}`,
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${token}`,
+                    },
+                    body: JSON.stringify(body),
                 }
-            />
-        )}
+            );
 
-        <CardContent className="space-y-4">
-            {objetos.map((obj) => {
-                const estado = estadoObjetos.find((x) => x.id === obj.PK_objID);
-                if (!estado) return null;
+            await res.json();
+            alert("Sucesso!");
+        } catch (erro) {
+            console.log(erro);
+            alert("Erro ao salvar verificação.");
+        }
+    }
 
-                return (
-                    <div key={obj.PK_objID} className="border rounded-xl p-4 space-y-3">
-                        <div className="flex justify-between items-center">
-                            <div>
-                                {/* 👇 NOME DO OBJETO ABRE O DIALOG */}
-                                <p
-                                    className="font-semibold cursor-pointer hover:underline"
-                                    onClick={() => setObjetoSelecionado(obj)}
+    return (
+        <Card className="w-full">
+            <CardHeader>
+                <CardTitle className="text-xl font-semibold">
+                    Nova Verificação de Objetos
+                </CardTitle>
+
+                <div className="flex items-center gap-2">
+                    <span className="text-sm text-gray-500">Iniciar Verificação - </span>
+
+                    <Switch
+                        className="bg-gray-600 data-[state=checked]:bg-white"
+                        checked={!isLocked}
+                        onCheckedChange={() => setIsLocked(!isLocked)}
+                    >
+                        <SwitchThumb className="bg-white data-[state=checked]:bg-black" />
+                    </Switch>
+                </div>
+            </CardHeader>
+
+            {/* 🔥 Mantido exatamente como antes – sem Dialog externo */}
+            {objetoSelecionado && (
+                <DialogViewObjeto
+                    objeto={objetoSelecionado}
+                    nomeComodo="Visualizar objeto"
+                    disabled={false}
+                    onClose={() => setObjetoSelecionado(null)} // 🔥 antes estava {}, agora fecha corretamente
+                />
+            )}
+
+            <CardContent className="space-y-4">
+                {objetos.map((obj) => {
+                    const estado = estadoObjetos.find((x) => x.id === obj.PK_objID);
+                    if (!estado) return null;
+
+                    return (
+                        <div key={obj.PK_objID} className="border rounded-xl p-4 space-y-3">
+                            <div className="flex justify-between items-center">
+                                <div>
+                                    <p
+                                        className="font-semibold cursor-pointer hover:underline"
+                                        onClick={() => setObjetoSelecionado(obj)}
+                                    >
+                                        {obj.objNome}
+                                    </p>
+
+                                    <p className="text-sm text-muted-foreground">
+                                        {obj.objMarca ?? "Sem marca"}
+                                    </p>
+                                </div>
+
+                                <Badge
+                                    variant={
+                                        estado.presente === true
+                                            ? "default"
+                                            : estado.presente === false
+                                                ? "outline"
+                                                : "outline"
+                                    }
                                 >
-                                    {obj.objNome}
-                                </p>
-
-                                <p className="text-sm text-muted-foreground">
-                                    {obj.objMarca ?? "Sem marca"}
-                                </p>
+                                    {estado.presente === true
+                                        ? "Presente"
+                                        : estado.presente === false
+                                            ? "Faltante"
+                                            : "Não definido"}
+                                </Badge>
                             </div>
 
-                            <Badge
-                                variant={
-                                    estado.presente === true
-                                        ? "default"
-                                        : estado.presente === false
-                                        ? "outline"
-                                        : "outline"
-                                }
-                            >
-                                {estado.presente === true
-                                    ? "Presente"
-                                    : estado.presente === false
-                                    ? "Faltante"
-                                    : "Não definido"}
-                            </Badge>
+                            <Separator />
+
+                            <div className="flex items-center gap-3">
+                                <Switch
+                                    className="bg-white data-[state=checked]:bg-gray-600"
+                                    checked={estado.presente === true}
+                                    onCheckedChange={(checked) =>
+                                        atualizar(obj.PK_objID, "presente", checked)
+                                    }
+                                    disabled={isLocked}
+                                />
+                                <span className="text-sm text-muted-foreground">
+                                    Marcar como presente
+                                </span>
+                            </div>
+
+                            {estado.presente === true && (
+                                <Input
+                                    type="number"
+                                    min={0}
+                                    disabled={isLocked}
+                                    max={obj.objUnidades}
+                                    value={estado.quantidade}
+                                    onChange={(e) =>
+                                        atualizar(
+                                            obj.PK_objID,
+                                            "quantidade",
+                                            Number(e.target.value)
+                                        )
+                                    }
+                                    placeholder="Quantidade"
+                                />
+                            )}
+
+                            {estado.presente === false && (
+                                <p className="text-red-600 dark:text-red-400 font-medium">
+                                    Objeto marcado como faltante
+                                </p>
+                            )}
                         </div>
+                    );
+                })}
 
-                        <Separator />
-
-                        <div className="flex items-center gap-3">
-                            <Switch
-                                className="bg-white data-[state=checked]:bg-gray-600"
-                                checked={estado.presente === true}
-                                onCheckedChange={(checked) =>
-                                    atualizar(obj.PK_objID, "presente", checked)
-                                }
-                                disabled={isLocked}
-                            />
-                            <span className="text-sm text-muted-foreground">
-                                Marcar como presente
-                            </span>
-                        </div>
-
-                        {estado.presente === true && (
-                            <Input
-                                type="number"
-                                min={0}
-                                disabled={isLocked}
-                                max={obj.objUnidades}
-                                value={estado.quantidade}
-                                onChange={(e) =>
-                                    atualizar(
-                                        obj.PK_objID,
-                                        "quantidade",
-                                        Number(e.target.value)
-                                    )
-                                }
-                                placeholder="Quantidade"
-                            />
-                        )}
-                        {estado.presente === false && (
-                            <p className="text-red-600 dark:text-red-400 font-medium">
-                                Objeto marcado como faltante
-                            </p>
-                        )}
-                    </div>
-                );
-            })}
-
-            <Button className="w-full mt-4" onClick={finalizarVerificacao}  disabled={isLocked}>
-                Finalizar Verificação
-            </Button>
-        </CardContent>
-    </Card>
-);
+                <Button className="w-full mt-4" onClick={finalizarVerificacao} disabled={isLocked}>
+                    Finalizar Verificação
+                </Button>
+            </CardContent>
+        </Card>
+    );
 }

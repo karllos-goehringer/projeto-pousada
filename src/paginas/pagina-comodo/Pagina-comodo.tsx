@@ -4,7 +4,7 @@ import estilo from './Pagina-comodo-css.module.css';
 import { useEffect, useState } from "react";
 import ViewComodo from "@/componentes/view-comodo/view-comodo";
 import ObjetosList from "@/componentes/objetos-list/ObjetosList";
-import { Card, CardContent, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import ListVerificacaoObjetos from "@/componentes/listVerificacaoObjetos/ListVerificacaoObjetos";
 import ListVerificacoesFeitas from "@/componentes/listVerificacoesFeitas/ListVerificacoesFeitas";
 
@@ -126,7 +126,6 @@ export default function PaginaComodo() {
             </CardContent>
           </Card>
           </Card>
-          
         </div>
       </div>
     </main>

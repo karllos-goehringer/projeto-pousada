@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Switch, SwitchThumb } from "@radix-ui/react-switch";
 import LocalStorage from "@/backend/LocalStorage";
+import { RotaBackEnd } from "@/backend/routes/privateroute";
 
 interface propsEndereco {
   uf: string;
@@ -43,7 +44,8 @@ export default function EnderecoForm(props: propsEndereco) {
         console.error("Token ou userId não encontrados");
         return;
       }
-      const res = await fetch(`http://localhost:3000/pousada/pousada-update-endereco/${props.id}`, {
+      
+      const res = await fetch(`${RotaBackEnd}/pousada/pousada-update-endereco/${props.id}`, {
           method: "PUT",
         headers: {
           "Content-Type": "application/json",

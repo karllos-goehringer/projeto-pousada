@@ -13,7 +13,6 @@ import PaginaPousada from './paginas/pagina-pousada/pagina-pousada'
 import PaginaComodo from './paginas/pagina-comodo/Pagina-comodo.tsx'
 import AuthProvider from './backend/auth/AuthProvider.tsx'
 function App() {
-  const rotaBackEnd = 'https://localhost:3000'
   return (
     <BrowserRouter>
       <AuthProvider>

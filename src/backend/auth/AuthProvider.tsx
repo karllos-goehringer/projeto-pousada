@@ -1,4 +1,5 @@
 import { createContext, useContext, useEffect, useState } from "react";
+import { RotaBackEnd } from "../routes/privateroute";
 
 interface User {
     id: number;
@@ -52,7 +53,7 @@ export default function AuthProvider({ children }: { children: React.ReactNode }
             }
 
             try {
-                const res = await fetch("http://localhost:3000/auth/verify", {
+                const res = await fetch(`${RotaBackEnd}/auth/verify`, {
                     method: "GET",
                     headers: {
                         Authorization: `Bearer ${token}`,
@@ -91,8 +92,8 @@ export default function AuthProvider({ children }: { children: React.ReactNode }
     }, []);
 
     const login = async (email: string, password: string): Promise<boolean> => {
-        try {
-            const res = await fetch("http://localhost:3000/auth/login", {
+        try {   
+            const res = await fetch(`${RotaBackEnd}/auth/login`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ email, senha: password }),

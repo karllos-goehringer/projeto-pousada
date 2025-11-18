@@ -1,6 +1,7 @@
 import { useState } from "react";
 import type { FormEvent, ChangeEvent } from "react";
 import estilo from "./Cadastros-objetos.module.css"
+import { RotaBackEnd } from "@/backend/routes/privateroute";
 
 interface Objeto {
   comodo: string;
@@ -59,7 +60,7 @@ const handleSubmit = async (e: FormEvent) => {
       objImagem: formData.imagem, // no seu caso está sendo a URL temporária
     };
 
-    const response = await fetch("http://localhost:3000/create-objeto", {
+    const response = await fetch(`${RotaBackEnd}/create-objeto`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

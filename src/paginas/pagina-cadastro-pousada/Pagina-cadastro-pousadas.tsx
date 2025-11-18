@@ -10,6 +10,7 @@ import PhoneInput from "react-phone-number-input";
 import "react-phone-number-input/style.css";
 import { useAuth } from "@/backend/auth/AuthProvider";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import { RotaBackEnd } from "@/backend/routes/privateroute";
 type PousadaFormValues = {
   nomePousada: string;
   email: string;
@@ -67,8 +68,8 @@ export default function PaginaCadastroPousadas() {
         uf: data.uf,
         id: userId,   // ← Agora correto!
       };
-
-      const res = await fetch(`http://localhost:3000/pousada/register`, {
+ 
+      const res = await fetch(`${RotaBackEnd}/pousada/register`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

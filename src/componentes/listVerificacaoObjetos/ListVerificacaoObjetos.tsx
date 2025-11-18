@@ -7,6 +7,7 @@ import { Switch } from "@/components/ui/switch";
 import { useEffect, useState } from "react";
 import DialogViewObjeto from "../dialogViewObjeto/DialogViewObjeto";
 import { SwitchThumb } from "@radix-ui/react-switch";
+import { RotaBackEnd } from "@/backend/routes/privateroute";
 
 type Props = {
     PK_comodoID: string | undefined;
@@ -35,7 +36,7 @@ export default function ListVerificacaoObjetos({ PK_comodoID }: Props) {
                 const token = localStorage.getItem("authToken");
 
                 const res = await fetch(
-                    `http://localhost:3000/objeto/objeto/get-objetos-comodo/${PK_comodoID}`,
+                    `${RotaBackEnd}/objeto/objeto/get-objetos-comodo/${PK_comodoID}`,
                     { headers: { Authorization: `Bearer ${token}` } }
                 );
 
@@ -118,7 +119,7 @@ export default function ListVerificacaoObjetos({ PK_comodoID }: Props) {
             const token = localStorage.getItem("authToken");
 
             const res = await fetch(
-                `http://localhost:3000/comodo/verificacao/${PK_comodoID}`,
+                `${RotaBackEnd}/comodo/verificacao/${PK_comodoID}`,
                 {
                     method: "POST",
                     headers: {

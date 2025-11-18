@@ -3,6 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Switch, SwitchThumb } from "@radix-ui/react-switch";
 import DialogCadastroComodo from "../dialog-cadastro-comodo/Dialog-Cadastro-Comodo";
 import ComodoIconButton from "../comodo-list-componente/ComodoListComponente";
+import { RotaBackEnd } from "@/backend/routes/privateroute";
 
 interface Comodo {
   PK_comodoID: number;
@@ -24,7 +25,7 @@ const fetchComodos = async () => {
     setLoading(true);
     try {
       const token = localStorage.getItem("authToken");
-      const res = await fetch(`http://localhost:3000/comodo/comodos/get-comodos/${id}`, {
+      const res = await fetch(`${RotaBackEnd}/comodo/comodos/get-comodos/${id}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       if (!res.ok) {

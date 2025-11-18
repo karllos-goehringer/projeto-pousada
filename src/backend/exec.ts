@@ -1,7 +1,9 @@
+import { RotaBackEnd } from "./routes/privateroute";
 import type User from "./user/user";
 
 export  async function pingTest() {
-    let url = "http://localhost:3000/ping"
+    let url = `${RotaBackEnd}/ping`
+                
     const response = await fetch(url);
     const data = await response.json();
 }

@@ -5,6 +5,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/u
 import { useState } from "react";
 import DialogEditObjeto, { type ObjetoEdit } from "../dialogEditObjeto/DialogEditObjeto";
 import DialogViewObjeto from "../dialogViewObjeto/DialogViewObjeto"; // <-- importe aqui
+import { RotaBackEnd } from "@/backend/routes/privateroute";
 
 interface ObjetoIconButtonProps {
   nomeComodo: string | undefined;
@@ -26,7 +27,8 @@ export default function ItemObjetoList({ nomeComodo, objeto, locked, onCreated }
 
     try {
       const res = await fetch(
-        `http://localhost:3000/objeto/objeto/delete-objeto/${objeto.PK_objID}`,
+        
+        `${RotaBackEnd}/objeto/objeto/delete-objeto/${objeto.PK_objID}`,
         {
           method: "DELETE",
           headers: { Authorization: `Bearer ${token}` },

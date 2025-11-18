@@ -1,3 +1,4 @@
+import { RotaBackEnd } from "@/backend/routes/privateroute";
 import { Button } from "@/components/ui/button";
 import { InboxIcon } from "@/components/ui/icons/akar-icons-inbox";
 import { Trash2Icon } from "lucide-react";
@@ -27,7 +28,8 @@ export default function ComodoIconButton({ comodo,locked,onCreated }: ComodoIcon
 
     const token = localStorage.getItem("authToken");
     try {
-      const res = await fetch(`http://localhost:3000/comodo/comodos/delete-comodo/${comodo.PK_comodoID}`, {
+      
+      const res = await fetch(`${RotaBackEnd}/comodo/comodos/delete-comodo/${comodo.PK_comodoID}`, {
         method: "DELETE",
         headers: {
           Authorization: `Bearer ${token}`,

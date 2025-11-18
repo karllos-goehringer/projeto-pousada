@@ -1,3 +1,4 @@
+import { RotaBackEnd } from "@/backend/routes/privateroute";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -67,7 +68,7 @@ export default function ViewComodo({ PFK_pousadaID, PK_comodoID, capacidadePesso
 
         try {
             const res = await fetch(
-                `http://localhost:3000/comodo/comodos/update-comodo/${PK_comodoID}`,
+                `${RotaBackEnd}/comodo/comodos/update-comodo/${PK_comodoID}`,
                 {
                     method: "PUT",
                     headers: {

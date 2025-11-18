@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import CardEditPousadaNome from "@/componentes/cardEditPousadaNome/CardEditPousadaNome";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import { RotaBackEnd } from "@/backend/routes/privateroute";
 
 export default function PaginaPousada() {
   const { id: pousadaID } = useParams<{ id: string }>();
@@ -25,8 +26,8 @@ export default function PaginaPousada() {
     }
 
     try {
-      const res = await fetch(
-        `http://localhost:3000/pousada/get-pousada-details/${pousadaID}`,
+      const res = await fetch( 
+        `${RotaBackEnd}/pousada/get-pousada-details/${pousadaID}`,
         { headers: { Authorization: `Bearer ${token}` } }
       );
 

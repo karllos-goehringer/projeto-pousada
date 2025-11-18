@@ -4,6 +4,7 @@ import { Switch } from "@/components/ui/switch";
 import { SwitchThumb } from "@radix-ui/react-switch";
 import DialogCadastroObjeto from "../dialogCadastroObjeto/DialogCadastroObjeto";
 import ItemObjetoList from "../item-objetos-list/ItemObjetosList";
+import { RotaBackEnd } from "@/backend/routes/privateroute";
 interface ObjetosListProps {
   PK_comodoID?: string;
   nomeComodo?: string;
@@ -22,9 +23,8 @@ export default function ObjetosList({ PK_comodoID,nomeComodo }: ObjetosListProps
       try {
         const token = localStorage.getItem("authToken");
         const userData = JSON.parse(localStorage.getItem("UserLogged") || "{}");
-
       const res = await fetch(
-        `http://localhost:3000/objeto/objeto/get-objetos-comodo/${PK_comodoID}`,
+        `${RotaBackEnd}/objeto/objeto/get-objetos-comodo/${PK_comodoID}`,
         {
           method: "GET",
           headers: {

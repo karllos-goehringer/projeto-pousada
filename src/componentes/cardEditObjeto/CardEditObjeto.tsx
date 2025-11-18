@@ -5,6 +5,7 @@ import { Label } from "@/components/ui/label";
 import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import type { ObjetoEdit } from "../dialogEditObjeto/DialogEditObjeto";
+import { RotaBackEnd } from "@/backend/routes/privateroute";
 
 interface FormObjeto {
   PK_objID: number;
@@ -52,7 +53,7 @@ export default function CardEditObjeto({ nomeComodo, onCreated, onClose, Objeto 
     }
 
     if (typeof Objeto.objImagem === "string") {
-      setPreview(`http://localhost:3000/uploads/objeto/${Objeto.objImagem}`)
+      setPreview(`${RotaBackEnd}/uploads/objeto/${Objeto.objImagem}`)
       return;
     }
 
@@ -106,7 +107,7 @@ export default function CardEditObjeto({ nomeComodo, onCreated, onClose, Objeto 
       }
 
       const res = await fetch(
-        `http://localhost:3000/objeto/objeto/update-objeto${Objeto.PK_objID}`,
+        `${RotaBackEnd}/objeto/objeto/update-objeto${Objeto.PK_objID}`,
         {
           method: "PUT",
           headers: {

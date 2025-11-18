@@ -4,6 +4,7 @@ import { CardContent } from "@/components/ui/card";
 import { Label } from "@radix-ui/react-label";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { RotaBackEnd } from "@/backend/routes/privateroute";
 
 interface PropsComodos {
   id: string | undefined;
@@ -29,7 +30,7 @@ export default function CardCadastroComodo({ id, onCreated, onClose }: PropsComo
     }
 
     try {
-      const res = await fetch(`http://localhost:3000/comodo/comodos/create-comodo`, {
+      const res = await fetch(`${RotaBackEnd}/comodo/comodos/create-comodo`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

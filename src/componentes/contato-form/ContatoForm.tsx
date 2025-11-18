@@ -10,6 +10,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Switch, SwitchThumb } from "@radix-ui/react-switch";
 import LocalStorage from "@/backend/LocalStorage";
 import { PhoneInput } from "@/components/ui/phone-input";
+import { RotaBackEnd } from "@/backend/routes/privateroute";
 
 function parseTelefone(telefone: string) {
   if (!telefone) return { numBandeira: "", numDistrital: "", numero: "" };
@@ -55,7 +56,8 @@ export default function ContatoForm(props: propsContato) {
 
     try {
       const res = await fetch(
-        `http://localhost:3000/pousada/get-telefones-pousada/${props.telefone}/${props.telefoneAlternativo}`,
+        
+        `${RotaBackEnd}/pousada/get-telefones-pousada/${props.telefone}/${props.telefoneAlternativo}`,
         { headers: { Authorization: `Bearer ${token}` } }
       );
 
@@ -106,8 +108,8 @@ const telefoneAltStr = telAlt
       const telefoneAlternativo = parseTelefone(data.telefoneAlternativo);
 
       const payload = { email: data.email, telefone: telefonePrincipal, telefoneAlternativo:telefoneAlternativo, PK_telefoneID:props.telefone, telefoneAltID:props.telefoneAlternativo };
-
-      const res = await fetch(`http://localhost:3000/pousada/pousada-update-contato/${props.id}`, {
+      
+      const res = await fetch(`${RotaBackEnd}/pousada/pousada-update-contato/${props.id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",

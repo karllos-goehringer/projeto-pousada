@@ -1,6 +1,7 @@
 import { Navigate, Outlet } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useAuth } from "../auth/AuthProvider";
+import { RotaBackEnd } from "../routes/privateroute";
 
 export default function PrivateRoute() {
   const { token, auth, loading, setUser, setAuth, setToken } = useAuth(); // pegar do contexto
@@ -13,7 +14,7 @@ export default function PrivateRoute() {
       }
 
       try {
-        const res = await fetch("http://localhost:3000/auth/verify", {
+        const res = await fetch(`${RotaBackEnd}/auth/verify`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         const data = await res.json();

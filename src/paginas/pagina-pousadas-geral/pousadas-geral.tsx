@@ -6,6 +6,7 @@ import estilo from "./pousadas-geral.module.css";
 import AppSidebar from "@/componentes/Sidebar/AppSidebar";
 import CardPousada from "@/componentes/cardPousada/cardPousada";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import { RotaBackEnd } from "@/backend/routes/privateroute";
 
 export default function PousadasGeral() {
   interface Pousada {
@@ -47,7 +48,7 @@ export default function PousadasGeral() {
 
       try {
         const res = await fetch(
-          `http://localhost:3000/pousada/get-pousada/${userId}`,
+          `${RotaBackEnd}/pousada/get-pousada/${userId}`,
           {
             headers: {
               Authorization: `Bearer ${token}`,

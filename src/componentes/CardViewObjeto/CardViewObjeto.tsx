@@ -2,6 +2,7 @@ import { CardContent } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { useEffect, useState } from "react";
 import type { ObjetoEdit } from "../dialogEditObjeto/DialogEditObjeto";
+import { RotaBackEnd } from "@/backend/routes/privateroute";
 
 export interface ObjetoImagem {
   data?: number[];
@@ -28,7 +29,8 @@ export default function CardViewObjeto({ nomeComodo, Objeto, onClose }: PropsObj
     }
 
     if (typeof Objeto.objImagem === "string") {
-      setPreview(`http://localhost:3000/uploads/objeto/${Objeto.objImagem}`);
+      
+      setPreview(`${RotaBackEnd}/uploads/objeto/${Objeto.objImagem}`);
       return;
     }
 

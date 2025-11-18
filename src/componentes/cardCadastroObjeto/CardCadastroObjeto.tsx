@@ -5,6 +5,7 @@ import { Label } from "@radix-ui/react-label";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useAuth } from "@/backend/auth/AuthProvider";
+import { RotaBackEnd } from "@/backend/routes/privateroute";
 
 interface PropsObjeto {
   comodoID: string | undefined;
@@ -69,7 +70,7 @@ export default function CardCadastroObjeto({
         formData.append("objImagem", data.objImagem[0]);
       }
 
-      const res = await fetch("http://localhost:3000/objeto/objeto/create-objeto", {
+      const res = await fetch(`${RotaBackEnd}/objeto/objeto/create-objeto`, {
         method: "POST",
         headers: {
           Authorization: `Bearer ${token}`,

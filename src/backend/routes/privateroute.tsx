@@ -5,3 +5,4 @@ export default function PrivateRoute() {
   const isLogged = !!token;
   return isLogged ? <Outlet /> : <Navigate to="/login" replace />;
 }
+export const RotaBackEnd = "http://localhost:3000"

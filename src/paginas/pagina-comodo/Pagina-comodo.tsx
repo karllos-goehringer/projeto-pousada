@@ -7,6 +7,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import ListVerificacaoObjetos from "@/componentes/listVerificacaoObjetos/ListVerificacaoObjetos";
 import ListVerificacoesFeitas from "@/componentes/listVerificacoesFeitas/ListVerificacoesFeitas";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import { RotaBackEnd } from "@/backend/routes/privateroute";
 
 interface Comodo {
   PFK_pousadaID: string | undefined;
@@ -38,7 +39,7 @@ export default function PaginaComodo() {
 
       try {
         const res = await fetch(
-          `http://localhost:3000/comodo/comodos/getComodoById/${comodoID}`,
+           `${RotaBackEnd()}/comodo/comodos/getComodoById/${comodoID}`,
           { headers: { Authorization: `Bearer ${token}` } }
         );
 

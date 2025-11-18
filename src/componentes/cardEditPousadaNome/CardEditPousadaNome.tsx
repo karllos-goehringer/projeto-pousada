@@ -11,6 +11,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 import { Switch, SwitchThumb } from "@radix-ui/react-switch";
+import { RotaBackEnd } from "@/backend/routes/privateroute";
 
 interface PropsEditarNome {
   id: string | undefined;
@@ -44,7 +45,8 @@ export default function CardEditPousadaNome({ id, nomePousada, onUpdated }: Prop
     return;
   }
   try {
-    const res = await fetch(`http://localhost:3000/pousada/pousada-update-nome/${id}`, {
+    
+    const res = await fetch(`${RotaBackEnd}/pousada/pousada-update-nome/${id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",

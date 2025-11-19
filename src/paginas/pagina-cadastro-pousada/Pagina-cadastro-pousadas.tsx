@@ -66,7 +66,7 @@ export default function PaginaCadastroPousadas() {
         rua: data.rua,
         numResidencia: data.numResidencia,
         uf: data.uf,
-        id: userId,   // ← Agora correto!
+        userId: userId, 
       };
  
       const res = await fetch(`${RotaBackEnd}/pousada/register`, {

@@ -105,7 +105,7 @@ export default function AuthProvider({ children }: { children: React.ReactNode }
             if (!data.token) {
                 return false;
             }
-
+ 
             localStorage.setItem("token", data.token);
             localStorage.setItem("authToken", data.token);
             setToken(data.token);

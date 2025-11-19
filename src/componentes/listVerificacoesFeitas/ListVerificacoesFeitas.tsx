@@ -23,7 +23,6 @@ export default function ListVerificacoesFeitas({ PK_comodoID }: Props) {
             });
 
             const data = await res.json();
-            console.log(data)
             setVerificacoes(data || []);
         };
         fetchData();

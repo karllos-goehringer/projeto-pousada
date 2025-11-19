@@ -18,49 +18,35 @@ export default function PaginaPousada() {
   const [dadosContato, setDadosContato] = useState<any | null>(null);
   const [dadosPousada, setDadosPousada] = useState<any | null>(null);
 
-  async function buscarPousada() {
-    const token = localStorage.getItem("authToken");
-    if (!token) {
-      setLoading(false);
-      return;
-    }
-
-    try {
-      const res = await fetch( 
-        `${RotaBackEnd}/pousada/get-pousada-details/${pousadaID}`,
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
-
-      if (!res.ok) throw new Error(res.status ? `Erro: ${res.status}` : "Erro desconhecido");
-
-      const dadosApi = await res.json();
-
-      setDadosEndereco({
-        uf: dadosApi.enderecoPousada.uf,
-        cidade: dadosApi.enderecoPousada.cidade,
-        bairro: dadosApi.enderecoPousada.bairro,
-        rua: dadosApi.enderecoPousada.rua,
-        numResidencia: dadosApi.enderecoPousada.numResidencia,
-      });
-
-      setDadosContato({
-        telefone: dadosApi.contatoPousada.telefone,
-        telefoneAlternativo: dadosApi.contatoPousada.telefoneAlternativo,
-        email: dadosApi.contatoPousada.email,
-      });
-
-      setDadosPousada({
-        pousadaID: dadosApi.dataPousada.PK_pousadaID,
-        nomePousada: dadosApi.dataPousada.nomePousada,
-      });
-    } catch (err) {
-      setDadosEndereco(null);
-      setDadosContato(null);
-      setDadosPousada(null);
-    } finally {
-      setLoading(false);
-    }
+async function buscarPousada() {
+  setLoading(true);
+  const token = localStorage.getItem("authToken");
+  if (!token) {
+    setLoading(false);
+    return;
   }
+
+  try {
+    const res = await fetch(`${RotaBackEnd}/pousada/get-pousada-details/${pousadaID}`, {
+      headers: { Authorization: `Bearer ${token}` }
+    });
+
+    if (!res.ok) throw new Error(`Erro: ${res.status}`);
+
+    const dadosApi = await res.json();
+
+    setDadosEndereco(dadosApi.endereco);
+    setDadosContato(dadosApi.contato);
+    setDadosPousada(dadosApi.pousada);
+  } catch (err) {
+    console.error("Erro ao buscar pousada:", err);
+    setDadosEndereco(null);
+    setDadosContato(null);
+    setDadosPousada(null);
+  } finally {
+    setLoading(false);
+  }
+}
   useEffect(() => {
     if (!pousadaID) return;
     buscarPousada();

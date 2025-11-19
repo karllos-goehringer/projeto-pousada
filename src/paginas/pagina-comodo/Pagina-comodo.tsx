@@ -39,7 +39,7 @@ export default function PaginaComodo() {
 
       try {
         const res = await fetch(
-           `${RotaBackEnd()}/comodo/comodos/getComodoById/${comodoID}`,
+           `${RotaBackEnd}/comodo/comodos/getComodoById/${comodoID}`,
           { headers: { Authorization: `Bearer ${token}` } }
         );
 

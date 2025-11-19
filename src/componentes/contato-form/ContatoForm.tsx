@@ -8,9 +8,9 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Switch, SwitchThumb } from "@radix-ui/react-switch";
-import LocalStorage from "@/backend/LocalStorage";
 import { PhoneInput } from "@/components/ui/phone-input";
 import { RotaBackEnd } from "@/backend/routes/privateroute";
+import { useAuth } from "@/backend/auth/AuthProvider";
 
 function parseTelefone(telefone: string) {
   if (!telefone) return { numBandeira: "", numDistrital: "", numero: "" };
@@ -47,6 +47,7 @@ export default function ContatoForm(props: propsContato) {
       
     },
   });
+    const { user } = useAuth();
 
  useEffect(() => {
   async function buscarTelefones() {
@@ -101,7 +102,7 @@ const telefoneAltStr = telAlt
   const handleSubmit = async (data: any) => {
     try {
       const token = localStorage.getItem("authToken");
-      const userId = LocalStorage.UserLogged?.id;
+      const userId = user?.id
       if (!token || !userId) return;
 
       const telefonePrincipal = parseTelefone(data.telefone);

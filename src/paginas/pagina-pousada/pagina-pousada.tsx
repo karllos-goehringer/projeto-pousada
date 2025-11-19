@@ -12,7 +12,6 @@ import { RotaBackEnd } from "@/backend/routes/privateroute";
 
 export default function PaginaPousada() {
   const { id: pousadaID } = useParams<{ id: string }>();
-
   const [loading, setLoading] = useState(true);
   const [dadosEndereco, setDadosEndereco] = useState<any | null>(null);
   const [dadosContato, setDadosContato] = useState<any | null>(null);
@@ -34,10 +33,11 @@ async function buscarPousada() {
     if (!res.ok) throw new Error(`Erro: ${res.status}`);
 
     const dadosApi = await res.json();
-
+    console.log(dadosApi)
     setDadosEndereco(dadosApi.endereco);
     setDadosContato(dadosApi.contato);
     setDadosPousada(dadosApi.pousada);
+      
   } catch (err) {
     console.error("Erro ao buscar pousada:", err);
     setDadosEndereco(null);
@@ -121,8 +121,9 @@ async function buscarPousada() {
             <Card className="shadow-lg border-0 lg:col-span-2">
               <CardContent className="p-6">
                 {!loading && dadosPousada ? (
+                  
                   <CardEditPousadaNome
-                    id={dadosPousada.pousadaID}
+                    id={dadosPousada.PK_pousadaID}
                     nomePousada={dadosPousada.nomePousada}
                     onUpdated={buscarPousada}
                   />

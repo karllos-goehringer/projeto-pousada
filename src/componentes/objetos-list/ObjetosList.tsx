@@ -22,7 +22,6 @@ export default function ObjetosList({ PK_comodoID,nomeComodo }: ObjetosListProps
       setLoading(true);
       try {
         const token = localStorage.getItem("authToken");
-        const userData = JSON.parse(localStorage.getItem("UserLogged") || "{}");
       const res = await fetch(
         `${RotaBackEnd}/objeto/objeto/get-objetos-comodo/${PK_comodoID}`,
         {

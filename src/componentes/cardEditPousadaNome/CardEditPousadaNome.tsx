@@ -29,7 +29,6 @@ export default function CardEditPousadaNome({ id, nomePousada, onUpdated }: Prop
     },
   });
   
-  // sincroniza quando o nome vem do servidor
   useEffect(() => {
     if (nomePousada) form.reset({ nomePousada });
   }, [nomePousada, form]);

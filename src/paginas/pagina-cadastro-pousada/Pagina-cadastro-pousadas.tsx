@@ -4,7 +4,6 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useForm, FormProvider, Controller } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import LocalStorage from "@/backend/LocalStorage";
 import AppSidebar from "@/componentes/Sidebar/AppSidebar";
 import PhoneInput from "react-phone-number-input";
 import "react-phone-number-input/style.css";
@@ -218,8 +217,7 @@ export default function PaginaCadastroPousadas() {
               </div>
 
               {/* ID Hidden */}
-              <input type="hidden" {...methods.register("id")} value={LocalStorage.UserLogged?.id} />
-
+              <input type="hidden" {...methods.register("id")} value={userId} />
               <Button className="w-full mt-4" type="submit">
                 Cadastrar Pousada
               </Button>

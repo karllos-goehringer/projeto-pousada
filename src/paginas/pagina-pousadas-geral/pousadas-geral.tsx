@@ -1,5 +1,4 @@
 import { Link } from "react-router-dom";
-import LocalStorage from "@/backend/LocalStorage";
 import { useEffect, useState } from "react";
 import { useAuth } from "@/backend/auth/AuthProvider";
 import estilo from "./pousadas-geral.module.css";
@@ -16,7 +15,6 @@ export default function PousadasGeral() {
 
   const [dados, setDados] = useState<Pousada[] | null>(null);
   const [loading, setLoading] = useState(true);
-
   const { loading: authLoading, token: authToken, user } = useAuth();
 
   useEffect(() => {
@@ -25,7 +23,7 @@ export default function PousadasGeral() {
 
     const buscarPousadas = async () => {
       const token = authToken || localStorage.getItem("authToken");
-      let userId = user?.id ?? LocalStorage.UserLogged?.id;
+      var userId = user?.id
 
       // If we don't have the user object, try to decode the JWT to get the user id
       if (!userId && token) {

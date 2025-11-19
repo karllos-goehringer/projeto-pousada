@@ -54,11 +54,7 @@ export default function ViewComodo({ PFK_pousadaID, PK_comodoID, capacidadePesso
             setMsg("⚠️ ID da pousada não definido!");
             return;
         }
-
-
         data.PFK_pousadaID = Number(PFK_pousadaID);
-
-
         const token = localStorage.getItem("authToken");
         if (!token) {
             setMsg("⚠️ Usuário não autenticado.");

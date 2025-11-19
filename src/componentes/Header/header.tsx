@@ -1,18 +1,19 @@
 import { Link } from "react-router-dom";
 import estilo from "./header.module.css";
-import LocalStorage from "../../backend/LocalStorage";
 import { Button } from "@/components/ui/button";
 import { Home } from "lucide-react";
 import { PersonAddIcon } from "@/components/ui/icons/akar-icons-person-add";
 import { ChevronRightSmallIcon } from "@/components/ui/icons/akar-icons-chevron-right-small";
 import { ChevronLeftSmallIcon } from "@/components/ui/icons/akar-icons-chevron-left-small";
+import { useAuth } from "@/backend/auth/AuthProvider";
 export default function Header() {
     let boxUser = null;
-    if (LocalStorage.UserLogged != null) {
+      const { user, } = useAuth();
+    if ( user != null) {
         boxUser = (
             <div className={estilo.boxUser}>
                 <>
-                    <p>Bem vindo, {LocalStorage.UserLogged.name}</p>
+                    <p>Bem vindo, {user.nome}</p>
 
                     <Button asChild variant="default">
                         <Link to="/pousadas-user">

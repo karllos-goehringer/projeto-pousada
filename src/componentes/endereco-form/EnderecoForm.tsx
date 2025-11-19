@@ -8,8 +8,8 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Switch, SwitchThumb } from "@radix-ui/react-switch";
-import LocalStorage from "@/backend/LocalStorage";
 import { RotaBackEnd } from "@/backend/routes/privateroute";
+import { useAuth } from "@/backend/auth/AuthProvider";
 
 interface propsEndereco {
   uf: string;
@@ -34,17 +34,16 @@ export default function EnderecoForm(props: propsEndereco) {
       numResidencia: props.numResidencia || "", 
     },
   });
-
+  const { user, token } = useAuth();
+  const data_token = token;
+  const userId = user?.id
   const handleSubmit = async (data: any) => {
     try {
-      const token = localStorage.getItem("authToken");
-      const userId = LocalStorage.UserLogged?.id;
-
-      if (!token || !userId) {
+      if (!data_token || !userId) {
         console.error("Token ou userId não encontrados");
         return;
       }
-      
+      console.log(props.id)
       const res = await fetch(`${RotaBackEnd}/pousada/pousada-update-endereco/${props.id}`, {
           method: "PUT",
         headers: {

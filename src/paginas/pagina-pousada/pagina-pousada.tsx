@@ -33,7 +33,6 @@ async function buscarPousada() {
     if (!res.ok) throw new Error(`Erro: ${res.status}`);
 
     const dadosApi = await res.json();
-    console.log(dadosApi)
     setDadosEndereco(dadosApi.endereco);
     setDadosContato(dadosApi.contato);
     setDadosPousada(dadosApi.pousada);

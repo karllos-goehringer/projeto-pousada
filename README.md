@@ -73,10 +73,7 @@ No projeto existe um arquivo `.sql`. Importe-o no seu MySQL (via Workbench, phpM
 Geralmente contém:
 
 ```
-DB_HOST=localhost
-DB_USER=root
-DB_PASSWORD=sua_senha
-DB_DATABASE=nome_do_banco
+REFRESH_SECRET=algumrefrest
 JWT_SECRET=algumasecret
 ```
 

@@ -18,7 +18,7 @@ A API é responsável por toda a lógica de negócio, comunicação com o banco 
 
 ### Frontend
 
-* **HTML, CSS, TypeScript**
+* **ShadCN, Tailwindcss, TypeScript**
 * **React + Vite**
 * **Consumo da API via Fetch**
 

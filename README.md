@@ -1,69 +1,105 @@
-# React + TypeScript + Vite
+# Projeto Pousada
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Este repositório contém o **frontend** do sistema de cadastro e controle de itens de uma pousada. O objetivo principal do projeto é **facilitar a verificação dos itens após o término de uma estadia**, garantindo mais organização e agilidade no processo de conferência.
 
-Currently, two official plugins are available:
+### 🏡 Sobre o Projeto
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+O sistema permite gerenciar itens presentes em quartos ou áreas da pousada, listando, cadastrando e verificando sua integridade. A aplicação conta com uma interface amigável que facilita o trabalho dos funcionários na administração dos itens.
 
-## Expanding the ESLint configuration
+Este projeto é **dependente** do backend disponível neste repositório:
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+* **API Backend:** [https://github.com/karllos-goehringer/api-projeto-pousada](https://github.com/karllos-goehringer/api-projeto-pousada)
 
-```js
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+A API é responsável por toda a lógica de negócio, comunicação com o banco de dados e autenticação.
 
-      // Remove tseslint.configs.recommended and replace with this
-      ...tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      ...tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      ...tseslint.configs.stylisticTypeChecked,
+---
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+## 🛠️ Tecnologias Utilizadas
+
+### Frontend
+
+* **HTML, CSS, TypeScript**
+* **React + Vite**
+* **Consumo da API via Fetch**
+
+### Backend (projeto dependente)
+
+* **Node.js + Express**
+* **MySQL**
+* **JWT para autenticação**
+
+---
+
+## 📦 Como Rodar o Projeto
+
+### 🔹 1. Clonar os repositórios
+
+```bash
+git clone https://github.com/karllos-goehringer/projeto-pousada
+git clone https://github.com/karllos-goehringer/api-projeto-pousada
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+---
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## ▶️ Frontend (este projeto)
 
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+Dentro da pasta `projeto-pousada` rode:
+
+```bash
+npm install
+npm run dev
 ```
+
+A aplicação iniciará em: **[http://localhost:5173](http://localhost:5173)** (ou outra porta informada pelo Vite)
+
+---
+
+## 🖥️ Backend (API necessária)
+
+Dentro da pasta `api-projeto-pousada`:
+
+### 1. Instale as dependências
+
+```bash
+npm install
+```
+
+### 2. Importe o banco de dados
+
+No projeto existe um arquivo `.sql`. Importe-o no seu MySQL (via Workbench, phpMyAdmin ou CLI).
+
+### 3. Configure o arquivo `.env`
+
+Geralmente contém:
+
+```
+DB_HOST=localhost
+DB_USER=root
+DB_PASSWORD=sua_senha
+DB_DATABASE=nome_do_banco
+JWT_SECRET=algumasecret
+```
+
+### 4. Inicie o servidor backend
+
+```bash
+node ./app.js
+```
+
+A API iniciará em: **[http://localhost:3000](http://localhost:3000)**
+
+---
+
+## 🔗 Integração
+
+O frontend foi configurado para consumir as rotas da API. Certifique-se de que:
+
+* O backend está rodando na porta configurada.
+* O CORS está habilitado (O CORS já vem configurado como padrão, mas lembre de verificar).
+* O arquivo de configuração do frontend aponta corretamente para a URL da API. (inicialmente está em localhost:3000)
+
+---
+
+## ✔️ Pronto!
+
+Com ambos os servidores rodando, o sistema estará funcionando completamente.

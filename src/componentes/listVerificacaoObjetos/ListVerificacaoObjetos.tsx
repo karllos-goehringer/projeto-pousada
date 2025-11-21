@@ -11,6 +11,8 @@ import { RotaBackEnd } from "@/backend/routes/privateroute";
 
 type Props = {
     PK_comodoID: string | undefined;
+    onRefresh: () => void;
+    refresh:number;
 };
 
 type EstadoObjeto = {
@@ -19,7 +21,7 @@ type EstadoObjeto = {
     quantidade: number;
 };
 
-export default function ListVerificacaoObjetos({ PK_comodoID }: Props) {
+export default function ListVerificacaoObjetos({ PK_comodoID, onRefresh, refresh }: Props) {
     const [msg, setMsg] = useState("");
     const [loading, setLoading] = useState(false);
     const [isLocked, setIsLocked] = useState(true);
@@ -63,7 +65,7 @@ export default function ListVerificacaoObjetos({ PK_comodoID }: Props) {
         };
 
         fetchObjetos();
-    }, [PK_comodoID]);
+    }, [PK_comodoID,refresh]);
 
     function atualizar(id: number, campo: string, valor: any) {
         setEstadoObjetos((prev) =>
@@ -131,6 +133,7 @@ export default function ListVerificacaoObjetos({ PK_comodoID }: Props) {
             );
 
             await res.json();
+            onRefresh()
             alert("Sucesso!");
         } catch (erro) {
             console.log(erro);

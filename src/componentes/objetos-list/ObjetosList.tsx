@@ -8,9 +8,11 @@ import { RotaBackEnd } from "@/backend/routes/privateroute";
 interface ObjetosListProps {
   PK_comodoID?: string;
   nomeComodo?: string;
-}
+  onRefresh: () => void;
+  refresh: number;
+} 
 
-export default function ObjetosList({ PK_comodoID,nomeComodo }: ObjetosListProps) {
+export default function ObjetosList({ PK_comodoID,nomeComodo,onRefresh, refresh }: ObjetosListProps) {
   const [isLocked, setIsLocked] = useState(true);
   const [msg, setMsg] = useState("");
   const [loading, setLoading] = useState(false);
@@ -49,7 +51,7 @@ export default function ObjetosList({ PK_comodoID,nomeComodo }: ObjetosListProps
     };
 
      fetchObjetos();
-}, [PK_comodoID, reload]);
+}, [PK_comodoID, reload, refresh]);
 
   return (
     <Card className="max-w-md mx-auto mt-10">

@@ -25,7 +25,11 @@ export default function PaginaComodo() {
   const [erro, setErro] = useState<string | null>(null);
 
   const { id: comodoID } = useParams<{ id: string }>();
+  const [refreshTrigger, setRefreshTrigger] = useState(0);
 
+function handleRefresh() {
+  setRefreshTrigger(prev => prev + 1);
+}
   useEffect(() => {
     if (!comodoID) return;
 
@@ -116,19 +120,21 @@ export default function PaginaComodo() {
                 <ObjetosList
                   PK_comodoID={dadosObjetos?.PK_comodoID}
                   nomeComodo={dadosObjetos?.comodoNome}
+                  onRefresh={handleRefresh}
+                  refresh={refreshTrigger}
                 />
               </div>
             </CardContent>
             <Card>
               <CardContent>
                 {dadosObjetos?.PK_comodoID ? (
-                  <ListVerificacaoObjetos PK_comodoID={dadosObjetos?.PK_comodoID} />
+                  <ListVerificacaoObjetos PK_comodoID={dadosObjetos?.PK_comodoID} refresh={refreshTrigger} onRefresh={handleRefresh} />
                 ) : null}
               </CardContent>
             </Card>
             <Card>
               <CardContent>
-                <ListVerificacoesFeitas PK_comodoID={dadosObjetos?.PK_comodoID} />
+                <ListVerificacoesFeitas PK_comodoID={dadosObjetos?.PK_comodoID}  refresh={refreshTrigger} />
               </CardContent>
             </Card>
           </Card>

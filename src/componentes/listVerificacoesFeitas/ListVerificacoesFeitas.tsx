@@ -6,9 +6,10 @@ import { RotaBackEnd } from "@/backend/routes/privateroute";
 
 type Props = {
     PK_comodoID: string | undefined;
+    refresh: number;
 };
 
-export default function ListVerificacoesFeitas({ PK_comodoID }: Props) {
+export default function ListVerificacoesFeitas({ PK_comodoID,refresh }: Props) {
     const [verificacoes, setVerificacoes] = useState([]);
 
 
@@ -26,7 +27,7 @@ export default function ListVerificacoesFeitas({ PK_comodoID }: Props) {
             setVerificacoes(data || []);
         };
         fetchData();
-    }, [PK_comodoID]);
+    }, [PK_comodoID,refresh]);
     return (
             <Card>
             <CardHeader>
